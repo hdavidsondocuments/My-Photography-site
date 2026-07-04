@@ -1,0 +1,34 @@
+{
+  "items": [
+    {
+      "label": "Essay 01 — Harbor District, 2024–2026",
+      "title": "The Night Shift",
+      "description": "Two years documenting the dockworkers, night nurses, and bakers who keep a port town running after dark — a portrait of labor most of the city never sees.",
+      "image": "https://picsum.photos/seed/essay-harbor/900/720",
+      "thumb1": "https://picsum.photos/seed/harbor-a/300/300",
+      "thumb2": "https://picsum.photos/seed/harbor-b/300/300",
+      "thumb3": "https://picsum.photos/seed/harbor-c/300/300",
+      "link": ""
+    },
+    {
+      "label": "Essay 02 — River Road, 2025",
+      "title": "What the Water Left",
+      "description": "In the weeks after the flooding along River Road, families sorted through what could be saved. This essay follows three households through the slow work of rebuilding.",
+      "image": "https://picsum.photos/seed/essay-flood/900/720",
+      "thumb1": "https://picsum.photos/seed/flood-a/300/300",
+      "thumb2": "https://picsum.photos/seed/flood-b/300/300",
+      "thumb3": "https://picsum.photos/seed/flood-c/300/300",
+      "link": ""
+    },
+    {
+      "label": "Essay 03 — Elm Street, 2025",
+      "title": "Last Bell",
+      "description": "A year inside a rural school in its final term before closure — the last graduating class, the empty hallways, and what a town loses when its school shuts its doors.",
+      "image": "https://picsum.photos/seed/essay-school/900/720",
+      "thumb1": "https://picsum.photos/seed/school-a/300/300",
+      "thumb2": "https://picsum.photos/seed/school-b/300/300",
+      "thumb3": "https://picsum.photos/seed/school-c/300/300",
+      "link": ""
+    }
+  ]
+}

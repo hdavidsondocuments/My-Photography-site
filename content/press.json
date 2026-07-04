@@ -1,0 +1,40 @@
+{
+  "items": [
+    {
+      "frame": "Frame 01",
+      "publication": "The Coastal Review",
+      "description": "\"The Night Shift\" — feature photo essay, print & online, 2026",
+      "link": "#"
+    },
+    {
+      "frame": "Frame 02",
+      "publication": "Wide Frame Magazine",
+      "description": "\"What the Water Left\" — cover story, Spring issue, 2025",
+      "link": "#"
+    },
+    {
+      "frame": "Frame 03",
+      "publication": "Regional Press Wire",
+      "description": "Syndicated coverage of River Road flooding, 2025",
+      "link": "#"
+    },
+    {
+      "frame": "Frame 04",
+      "publication": "Daylight Journal",
+      "description": "\"Last Bell\" — long-form photo essay, online, 2025",
+      "link": "#"
+    },
+    {
+      "frame": "Frame 05",
+      "publication": "Northern Light Collective",
+      "description": "Group exhibition, \"Working Hours,\" 2024",
+      "link": "#"
+    },
+    {
+      "frame": "Frame 06",
+      "publication": "Field & Frame Podcast",
+      "description": "Interview on long-term documentary access, 2024",
+      "link": "#"
+    }
+  ]
+}

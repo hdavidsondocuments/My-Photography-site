@@ -1,0 +1,19 @@
+{
+  "items": [
+    {
+      "frame": "Frame 01",
+      "caption": "Night Shift, Harbor District — 2026",
+      "image": "https://picsum.photos/seed/dispatch1/700/900"
+    },
+    {
+      "frame": "Frame 02",
+      "caption": "Flood Line, River Road — 2025",
+      "image": "https://picsum.photos/seed/dispatch2/700/900"
+    },
+    {
+      "frame": "Frame 03",
+      "caption": "Last Class, Elm Street School — 2025",
+      "image": "https://picsum.photos/seed/dispatch3/700/900"
+    }
+  ]
+}

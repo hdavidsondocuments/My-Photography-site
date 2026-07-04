@@ -1,0 +1,93 @@
+backend:
+  name: git-gateway
+  branch: main
+
+media_folder: "images/uploads"
+public_folder: "images/uploads"
+
+collections:
+  - name: "dispatches"
+    label: "Recent Dispatches (homepage strip)"
+    files:
+      - file: "content/dispatches.json"
+        label: "Dispatches"
+        name: "dispatches"
+        fields:
+          - label: "Photos"
+            name: "items"
+            widget: "list"
+            summary: "{{fields.frame}} — {{fields.caption}}"
+            fields:
+              - {label: "Frame Label", name: "frame", widget: "string"}
+              - {label: "Caption", name: "caption", widget: "string"}
+              - {label: "Photo", name: "image", widget: "image"}
+
+  - name: "essays"
+    label: "Photo Essays"
+    files:
+      - file: "content/essays.json"
+        label: "Essays"
+        name: "essays"
+        fields:
+          - label: "Essays"
+            name: "items"
+            widget: "list"
+            summary: "{{fields.title}}"
+            fields:
+              - {label: "Eyebrow Label", name: "label", widget: "string", hint: "e.g. Essay 04 — Location, Year"}
+              - {label: "Title", name: "title", widget: "string"}
+              - {label: "Description", name: "description", widget: "text"}
+              - {label: "Main Photo", name: "image", widget: "image"}
+              - {label: "Thumbnail 1", name: "thumb1", widget: "image"}
+              - {label: "Thumbnail 2", name: "thumb2", widget: "image"}
+              - {label: "Thumbnail 3", name: "thumb3", widget: "image"}
+              - {label: "Link to full story (optional)", name: "link", widget: "string", required: false}
+
+  - name: "journal"
+    label: "Journal Entries"
+    files:
+      - file: "content/journal.json"
+        label: "Journal"
+        name: "journal"
+        fields:
+          - label: "Entries"
+            name: "entries"
+            widget: "list"
+            summary: "{{fields.date}} — {{fields.title}}"
+            fields:
+              - {label: "Date", name: "date", widget: "string", hint: "e.g. Jul 2, 2026"}
+              - {label: "Title", name: "title", widget: "string"}
+              - {label: "Excerpt", name: "excerpt", widget: "text"}
+              - {label: "Link (optional)", name: "link", widget: "string", required: false}
+
+  - name: "press"
+    label: "Press & Publications"
+    files:
+      - file: "content/press.json"
+        label: "Press"
+        name: "press"
+        fields:
+          - label: "Mentions"
+            name: "items"
+            widget: "list"
+            summary: "{{fields.publication}}"
+            fields:
+              - {label: "Frame Label", name: "frame", widget: "string"}
+              - {label: "Publication Name", name: "publication", widget: "string"}
+              - {label: "Description", name: "description", widget: "string"}
+              - {label: "Link (optional)", name: "link", widget: "string", required: false}
+
+  - name: "about"
+    label: "About & Contact"
+    files:
+      - file: "content/about.json"
+        label: "About"
+        name: "about"
+        fields:
+          - {label: "Bio", name: "bio", widget: "text"}
+          - {label: "Pull Quote", name: "quote", widget: "text"}
+          - {label: "Portrait Photo", name: "portrait", widget: "image"}
+          - {label: "Location", name: "location", widget: "string"}
+          - {label: "Email", name: "email", widget: "string"}
+          - {label: "Press Email", name: "pressEmail", widget: "string"}
+          - {label: "Instagram URL", name: "instagram", widget: "string", required: false}

@@ -6,24 +6,43 @@ media_folder: "images/uploads"
 public_folder: "images/uploads"
 
 collections:
-  - name: "dispatches"
-    label: "Recent Dispatches (homepage strip)"
+  - name: "about"
+    label: "🏠 Site Info (Home / About / Contact)"
+    description: "Start here — this covers your name, homepage photo, bio, and contact details."
     files:
-      - file: "content/dispatches.json"
-        label: "Dispatches"
-        name: "dispatches"
+      - file: "content/about.json"
+        label: "Site Info"
+        name: "about"
         fields:
-          - label: "Photos"
-            name: "items"
-            widget: "list"
-            summary: "{{fields.frame}} — {{fields.caption}}"
+          - {label: "Location", name: "location", widget: "string", hint: "Shown on both your About and Contact pages"}
+          - label: "🏡 Home Page"
+            name: "home"
+            widget: "object"
+            hint: "What visitors see first when they land on your site"
             fields:
-              - {label: "Frame Label", name: "frame", widget: "string"}
-              - {label: "Caption", name: "caption", widget: "string"}
-              - {label: "Photo", name: "image", widget: "image"}
+              - {label: "Your Name", name: "name", widget: "string", hint: "Shown large across your homepage photo"}
+              - {label: "Tagline", name: "tagline", widget: "text", hint: "One short line under your name"}
+              - {label: "Background Photo", name: "heroPortrait", widget: "image", hint: "A photo of you — fills the full homepage background"}
+          - label: "👤 About Page"
+            name: "about"
+            widget: "object"
+            hint: "Your bio and portrait"
+            fields:
+              - {label: "Bio", name: "bio", widget: "text", hint: "A few sentences about you and your approach"}
+              - {label: "Pull Quote", name: "quote", widget: "text", hint: "A short, memorable line — shown in large text on your About page"}
+              - {label: "Portrait Photo", name: "portrait", widget: "image"}
+          - label: "✉️ Contact Page"
+            name: "contact"
+            widget: "object"
+            hint: "How people reach you"
+            fields:
+              - {label: "Email", name: "email", widget: "string"}
+              - {label: "Press Email", name: "pressEmail", widget: "string", hint: "For press or syndication inquiries — can be the same as your main email"}
+              - {label: "Instagram URL", name: "instagram", widget: "string", required: false, hint: "Full link, e.g. https://instagram.com/yourname"}
 
   - name: "essays"
-    label: "Photo Essays"
+    label: "📸 Photo Essays"
+    description: "Your main long-term projects — each one becomes its own page on your site."
     files:
       - file: "content/essays.json"
         label: "Essays"
@@ -34,28 +53,48 @@ collections:
             widget: "list"
             summary: "{{fields.title}}"
             fields:
-              - {label: "URL Slug (no spaces, e.g. night-shift)", name: "id", widget: "string", hint: "Used in the project's page link — keep it unique and don't reuse one from another essay"}
-              - {label: "Eyebrow Label", name: "label", widget: "string", hint: "e.g. Essay 04 — Location, Year"}
               - {label: "Title", name: "title", widget: "string"}
-              - {label: "Description", name: "description", widget: "text"}
-              - {label: "Main Photo (homepage preview)", name: "image", widget: "image"}
-              - {label: "Thumbnail 1 (homepage preview)", name: "thumb1", widget: "image"}
-              - {label: "Thumbnail 2 (homepage preview)", name: "thumb2", widget: "image"}
-              - {label: "Thumbnail 3 (homepage preview)", name: "thumb3", widget: "image"}
-              - label: "Full Photo Gallery (shown on the project's own page)"
+              - {label: "URL Slug", name: "id", widget: "string", hint: "No spaces, e.g. night-shift — becomes part of the project's web address. Must be unique."}
+              - {label: "Eyebrow Label", name: "label", widget: "string", hint: "e.g. Essay 04 — Location, Year"}
+              - {label: "Description", name: "description", widget: "text", hint: "2–3 sentences describing the project"}
+              - label: "Homepage Preview"
+                name: "preview"
+                widget: "object"
+                hint: "This is how the essay is teased on your Work page"
+                fields:
+                  - {label: "Main Photo", name: "image", widget: "image"}
+                  - {label: "Thumbnail 1", name: "thumb1", widget: "image"}
+                  - {label: "Thumbnail 2", name: "thumb2", widget: "image"}
+                  - {label: "Thumbnail 3", name: "thumb3", widget: "image"}
+              - label: "Full Photo Gallery"
                 name: "photos"
                 widget: "list"
                 summary: "{{fields.caption}}"
+                hint: "Every photo in the full project page — add as many as you like"
                 fields:
                   - {label: "Photo", name: "image", widget: "image"}
-                  - {label: "Caption", name: "caption", widget: "string", required: false}
-              - label: "Link (auto — leave as essay.html?id=[your slug above])"
-                name: "link"
-                widget: "string"
-                required: false
+                  - {label: "Caption", name: "caption", widget: "string", required: false, hint: "e.g. Location — Year"}
+
+  - name: "dispatches"
+    label: "🎞️ Recent Dispatches"
+    description: "A small rotating strip of 3 photos shown near the top of your Work page."
+    files:
+      - file: "content/dispatches.json"
+        label: "Dispatches"
+        name: "dispatches"
+        fields:
+          - label: "Photos (keep to 3)"
+            name: "items"
+            widget: "list"
+            summary: "{{fields.frame}} — {{fields.caption}}"
+            fields:
+              - {label: "Frame Label", name: "frame", widget: "string", hint: "e.g. Frame 01"}
+              - {label: "Caption", name: "caption", widget: "string", hint: "e.g. Location — Year"}
+              - {label: "Photo", name: "image", widget: "image"}
 
   - name: "journal"
-    label: "Journal Entries"
+    label: "📝 Journal Entries"
+    description: "Short field-note style posts. Newest entries should go at the top of the list."
     files:
       - file: "content/journal.json"
         label: "Journal"
@@ -68,40 +107,5 @@ collections:
             fields:
               - {label: "Date", name: "date", widget: "string", hint: "e.g. Jul 2, 2026"}
               - {label: "Title", name: "title", widget: "string"}
-              - {label: "Excerpt", name: "excerpt", widget: "text"}
-              - {label: "Link (optional)", name: "link", widget: "string", required: false}
-
-  - name: "press"
-    label: "Press & Publications"
-    files:
-      - file: "content/press.json"
-        label: "Press"
-        name: "press"
-        fields:
-          - label: "Mentions"
-            name: "items"
-            widget: "list"
-            summary: "{{fields.publication}}"
-            fields:
-              - {label: "Frame Label", name: "frame", widget: "string"}
-              - {label: "Publication Name", name: "publication", widget: "string"}
-              - {label: "Description", name: "description", widget: "string"}
-              - {label: "Link (optional)", name: "link", widget: "string", required: false}
-
-  - name: "about"
-    label: "About & Contact"
-    files:
-      - file: "content/about.json"
-        label: "About"
-        name: "about"
-        fields:
-          - {label: "Name (shown on Home + About)", name: "name", widget: "string"}
-          - {label: "Home Page Tagline", name: "tagline", widget: "text"}
-          - {label: "Home Page Background Photo", name: "heroPortrait", widget: "image", hint: "A photo of you — used as the full-screen background on your homepage"}
-          - {label: "Bio", name: "bio", widget: "text"}
-          - {label: "Pull Quote", name: "quote", widget: "text"}
-          - {label: "About Page Portrait", name: "portrait", widget: "image"}
-          - {label: "Location", name: "location", widget: "string"}
-          - {label: "Email", name: "email", widget: "string"}
-          - {label: "Press Email", name: "pressEmail", widget: "string"}
-          - {label: "Instagram URL", name: "instagram", widget: "string", required: false}
+              - {label: "Excerpt", name: "excerpt", widget: "text", hint: "2–3 sentences"}
+              - {label: "Link (optional)", name: "link", widget: "string", required: false, hint: "Leave blank if this entry doesn't link anywhere yet"}

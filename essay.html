@@ -59,7 +59,7 @@
     document.title = essay.title + ' — H. Davidson';
 
     const photos = (essay.photos && essay.photos.length) ? essay.photos : [
-      {image: essay.image, caption: essay.label}
+      {image: (essay.preview && essay.preview.image), caption: essay.label}
     ];
 
     const streamHtml = photos.map(p => `

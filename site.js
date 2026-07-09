@@ -75,13 +75,14 @@ function initSite(){
 // ---------- Render functions ----------
 
 function renderHome(data){
-  if(!data) return;
-  if(data.heroPortrait) document.getElementById('heroBg').src = data.heroPortrait;
-  if(data.name) document.getElementById('heroName').textContent = data.name;
-  if(data.tagline) document.getElementById('heroTagline').textContent = data.tagline;
-  if(data.bio) {
+  if(!data || !data.home) return;
+  const h = data.home;
+  if(h.heroPortrait) document.getElementById('heroBg').src = h.heroPortrait;
+  if(h.name) document.getElementById('heroName').textContent = h.name;
+  if(h.tagline) document.getElementById('heroTagline').textContent = h.tagline;
+  if(data.about && data.about.bio) {
     const introEl = document.getElementById('homeIntroText');
-    if(introEl) introEl.textContent = data.bio;
+    if(introEl) introEl.textContent = data.about.bio;
   }
 }
 
@@ -98,21 +99,25 @@ function renderDispatches(data){
 function renderEssays(data){
   const el = document.getElementById('essaysList');
   if(!el || !data || !data.items) return;
-  el.innerHTML = data.items.map((s, i) => `
+  el.innerHTML = data.items.map((s, i) => {
+    const p = s.preview || {};
+    const link = s.id ? `essay.html?id=${encodeURIComponent(s.id)}` : '';
+    return `
     <div class="story ${i % 2 === 1 ? 'reverse' : ''} reveal">
-      <div class="story-media"><img src="${esc(s.image)}" alt="${esc(s.title)}"></div>
+      <div class="story-media"><img src="${esc(p.image)}" alt="${esc(s.title)}"></div>
       <div class="story-text">
         <div class="story-eyebrow mono">${esc(s.label)}</div>
         <h3>${esc(s.title)}</h3>
         <p>${esc(s.description)}</p>
         <div class="story-thumbs">
-          <img src="${esc(s.thumb1)}" alt="Supporting image">
-          <img src="${esc(s.thumb2)}" alt="Supporting image">
-          <img src="${esc(s.thumb3)}" alt="Supporting image">
+          <img src="${esc(p.thumb1)}" alt="Supporting image">
+          <img src="${esc(p.thumb2)}" alt="Supporting image">
+          <img src="${esc(p.thumb3)}" alt="Supporting image">
         </div>
-        ${s.link ? `<a class="story-link" href="${esc(s.link)}" target="_blank" rel="noopener">Read the full story →</a>` : ''}
+        ${link ? `<a class="story-link" href="${esc(link)}" target="_blank" rel="noopener">Read the full story →</a>` : ''}
       </div>
-    </div>`).join('');
+    </div>`;
+  }).join('');
   initReveal();
 }
 
@@ -140,17 +145,19 @@ function renderAboutPage(data){
   const quote = document.getElementById('aboutQuote');
   const location = document.getElementById('aboutLocation');
   const portrait = document.getElementById('aboutPortrait');
-  if(bio) bio.textContent = data.bio || '';
-  if(quote) quote.textContent = data.quote || '';
+  const a = data.about || {};
+  if(bio) bio.textContent = a.bio || '';
+  if(quote) quote.textContent = a.quote || '';
   if(location) location.textContent = data.location || '';
-  if(portrait && data.portrait) portrait.src = data.portrait;
+  if(portrait && a.portrait) portrait.src = a.portrait;
 }
 
 function renderContactPage(data){
   if(!data) return;
+  const c = data.contact || {};
   const ids = {
-    contactEmail: data.email,
-    contactPressEmail: data.pressEmail,
+    contactEmail: c.email,
+    contactPressEmail: c.pressEmail,
     contactLocation: data.location
   };
   Object.keys(ids).forEach(id => {
@@ -158,5 +165,5 @@ function renderContactPage(data){
     if(el && ids[id]) el.textContent = ids[id];
   });
   const ig = document.getElementById('socialInstagram');
-  if(ig && data.instagram) ig.href = data.instagram;
+  if(ig && c.instagram) ig.href = c.instagram;
 }

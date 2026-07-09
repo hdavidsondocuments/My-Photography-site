@@ -1,12 +1,12 @@
 {
-  "name": "H. Davidson",
-  "tagline": "Documentary stories from the edges of ordinary life — night shifts, small towns, slow recoveries.",
   "bio": "I've spent the last decade photographing the parts of daily life that rarely make the front page — night shifts, small towns, slow recoveries. My work sits somewhere between photojournalism and long-form documentary: I follow one story for as long as it takes to understand it.",
-  "quote": "I'm not interested in the moment a story breaks. I'm interested in everything that happens after — that's where the real picture is.",
-  "location": "Springfield, MO (traveling internationally)",
-  "email": "hello@hdavidsonphoto.com",
-  "pressEmail": "press@hdavidsonphoto.com",
-  "portrait": "https://picsum.photos/seed/meridian-portrait/700/875",
+  "name": "Hunter Davidson",
+  "tagline": "Documentary stories from the edges of ordinary life.",
+  "instagram": "#",
   "heroPortrait": "https://picsum.photos/seed/hdavidson-hero/1600/2000",
-  "instagram": "#"
+  "location": "Springfield, MO (traveling internationally)",
+  "pressEmail": "h.davidsondocuments@gmail.com",
+  "portrait": "https://picsum.photos/seed/meridian-portrait/700/875",
+  "quote": "I'm not interested in the moment a story breaks. I'm interested in everything that happens after — that's where the real picture is.",
+  "email": "h.davidsondocuments@gmail.com"
 }

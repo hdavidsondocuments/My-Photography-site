@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About — H. Davidson</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="masthead" id="masthead" data-solid="true">
+  <div class="nav-row">
+    <a class="brand" href="index.html">H. Davidson
+      <span class="sub">Documentary Photographer</span>
+    </a>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <nav class="links" id="navLinks">
+      <a href="index.html">Home</a>
+      <a href="work.html">Work</a>
+      <a href="journal.html">Journal</a>
+      <a href="about.html" class="active">About</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section style="padding-top:150px;">
+    <div class="wrap about-grid">
+      <div class="reveal">
+        <img id="aboutPortrait" src="https://picsum.photos/seed/meridian-portrait/700/875" alt="Portrait of H. Davidson">
+      </div>
+      <div class="reveal">
+        <div class="eyebrow mono" style="color:var(--archive-red); margin-bottom:14px;">About</div>
+        <h2 style="font-size:clamp(1.8rem,3vw,2.6rem); font-weight:700; margin-bottom:20px;">H. Davidson</h2>
+        <p id="aboutBio">Loading…</p>
+        <blockquote id="aboutQuote"></blockquote>
+        <div class="about-meta">
+          <div><span class="mono">Based in</span><span class="val" id="aboutLocation">—</span></div>
+          <div><span class="mono">Available for</span><span class="val">Editorial / Documentary</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap footer-row">
+    <span class="mono">© 2026 H. Davidson — All images and text reserved</span>
+    <span class="mono">Documentary Photography / Photojournalism</span>
+  </div>
+</footer>
+
+<script src="site.js"></script>
+<script>
+  initSite();
+  loadJSON('content/about.json').then(data => { renderAboutPage(data); initReveal(); });
+</script>
+
+</body>
+</html>

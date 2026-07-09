@@ -34,14 +34,25 @@ collections:
             widget: "list"
             summary: "{{fields.title}}"
             fields:
+              - {label: "URL Slug (no spaces, e.g. night-shift)", name: "id", widget: "string", hint: "Used in the project's page link — keep it unique and don't reuse one from another essay"}
               - {label: "Eyebrow Label", name: "label", widget: "string", hint: "e.g. Essay 04 — Location, Year"}
               - {label: "Title", name: "title", widget: "string"}
               - {label: "Description", name: "description", widget: "text"}
-              - {label: "Main Photo", name: "image", widget: "image"}
-              - {label: "Thumbnail 1", name: "thumb1", widget: "image"}
-              - {label: "Thumbnail 2", name: "thumb2", widget: "image"}
-              - {label: "Thumbnail 3", name: "thumb3", widget: "image"}
-              - {label: "Link to full story (optional)", name: "link", widget: "string", required: false}
+              - {label: "Main Photo (homepage preview)", name: "image", widget: "image"}
+              - {label: "Thumbnail 1 (homepage preview)", name: "thumb1", widget: "image"}
+              - {label: "Thumbnail 2 (homepage preview)", name: "thumb2", widget: "image"}
+              - {label: "Thumbnail 3 (homepage preview)", name: "thumb3", widget: "image"}
+              - label: "Full Photo Gallery (shown on the project's own page)"
+                name: "photos"
+                widget: "list"
+                summary: "{{fields.caption}}"
+                fields:
+                  - {label: "Photo", name: "image", widget: "image"}
+                  - {label: "Caption", name: "caption", widget: "string", required: false}
+              - label: "Link (auto — leave as essay.html?id=[your slug above])"
+                name: "link"
+                widget: "string"
+                required: false
 
   - name: "journal"
     label: "Journal Entries"
@@ -84,9 +95,12 @@ collections:
         label: "About"
         name: "about"
         fields:
+          - {label: "Name (shown on Home + About)", name: "name", widget: "string"}
+          - {label: "Home Page Tagline", name: "tagline", widget: "text"}
+          - {label: "Home Page Background Photo", name: "heroPortrait", widget: "image", hint: "A photo of you — used as the full-screen background on your homepage"}
           - {label: "Bio", name: "bio", widget: "text"}
           - {label: "Pull Quote", name: "quote", widget: "text"}
-          - {label: "Portrait Photo", name: "portrait", widget: "image"}
+          - {label: "About Page Portrait", name: "portrait", widget: "image"}
           - {label: "Location", name: "location", widget: "string"}
           - {label: "Email", name: "email", widget: "string"}
           - {label: "Press Email", name: "pressEmail", widget: "string"}

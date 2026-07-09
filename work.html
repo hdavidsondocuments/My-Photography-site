@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Work — H. Davidson</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="masthead" id="masthead" data-solid="true">
+  <div class="nav-row">
+    <a class="brand" href="index.html">H. Davidson
+      <span class="sub">Documentary Photographer</span>
+    </a>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <nav class="links" id="navLinks">
+      <a href="index.html">Home</a>
+      <a href="work.html" class="active">Work</a>
+      <a href="journal.html">Journal</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="page-hero wrap reveal">
+    <div class="eyebrow mono">The Work</div>
+    <h1>Photo essays &amp; long-form projects</h1>
+    <p>Each project below is a sustained piece of documentary work — not a single frame, but a record built over weeks or years. Click into any essay to see the complete photo story.</p>
+  </div>
+
+  <section id="dispatches" style="padding-top:0;">
+    <div class="wrap reveal" style="padding-top:48px;">
+      <div class="section-head">
+        <div>
+          <div class="eyebrow mono">Contact Sheet 001</div>
+          <h2>Recent dispatches</h2>
+          <p>A running selection from current assignments and personal projects, sequenced as they were shot.</p>
+        </div>
+      </div>
+    </div>
+    <div class="contact-sheet">
+      <div class="sprocket-strip"></div>
+      <div class="wrap" style="padding:0;">
+        <div class="frames" id="dispatchFrames"></div>
+      </div>
+      <div class="sprocket-strip"></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="wrap">
+      <div id="essaysList"></div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap footer-row">
+    <span class="mono">© 2026 H. Davidson — All images and text reserved</span>
+    <span class="mono">Documentary Photography / Photojournalism</span>
+  </div>
+</footer>
+
+<script src="site.js"></script>
+<script>
+  initSite();
+  (async function(){
+    const [dispatches, essays] = await Promise.all([
+      loadJSON('content/dispatches.json'),
+      loadJSON('content/essays.json')
+    ]);
+    renderDispatches(dispatches);
+    renderEssays(essays);
+    initReveal();
+  })();
+</script>
+
+</body>
+</html>

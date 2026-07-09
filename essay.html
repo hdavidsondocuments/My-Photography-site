@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Photo Essay — H. Davidson</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+  header.essay-header{
+    padding:22px 32px; border-bottom:1px solid var(--line);
+    display:flex; align-items:center; justify-content:space-between;
+    position:relative; z-index:10; background:var(--paper);
+  }
+  .back-link{
+    text-decoration:none; font-family:'IBM Plex Mono', monospace; font-size:0.72rem;
+    letter-spacing:0.08em; text-transform:uppercase; color:var(--ink-soft);
+    border-bottom:1px solid var(--line); padding-bottom:2px;
+  }
+  .back-link:hover{border-bottom-color:var(--archive-red); color:var(--ink);}
+</style>
+</head>
+<body>
+
+<header class="essay-header">
+  <a class="brand" href="index.html">H. Davidson</a>
+  <a class="back-link" href="work.html">← Back to Work</a>
+</header>
+
+<div id="content">
+  <div class="loading mono">Loading essay…</div>
+</div>
+
+<script src="site.js"></script>
+<script>
+  function getParam(name){
+    return new URLSearchParams(window.location.search).get(name);
+  }
+
+  async function loadEssay(){
+    const id = getParam('id');
+    const content = document.getElementById('content');
+    const data = await loadJSON('content/essays.json');
+    if(!data){
+      content.innerHTML = `<div class="not-found mono">Couldn't load this essay. Make sure this page is being viewed on your live site (not opened directly from a file), since it needs to fetch content/essays.json.</div>`;
+      return;
+    }
+    const items = data.items || [];
+    const index = items.findIndex(e => e.id === id);
+
+    if(index === -1){
+      content.innerHTML = `<div class="not-found mono">Essay not found. <a href="work.html" style="color:var(--archive-red);">Return to Work →</a></div>`;
+      return;
+    }
+
+    const essay = items[index];
+    document.title = essay.title + ' — H. Davidson';
+
+    const photos = (essay.photos && essay.photos.length) ? essay.photos : [
+      {image: essay.image, caption: essay.label}
+    ];
+
+    const streamHtml = photos.map(p => `
+      <figure>
+        <img src="${esc(p.image)}" alt="${esc(p.caption || essay.title)}">
+        ${p.caption ? `<figcaption>${esc(p.caption)}</figcaption>` : ''}
+      </figure>`).join('');
+
+    const prevItem = items[(index - 1 + items.length) % items.length];
+    const nextItem = items[(index + 1) % items.length];
+    const showNav = items.length > 1;
+
+    content.innerHTML = `
+      <div class="wrap essay-head">
+        <div class="essay-eyebrow mono">${esc(essay.label)}</div>
+        <h1>${esc(essay.title)}</h1>
+        <p>${esc(essay.description)}</p>
+      </div>
+      <div class="wrap stream">${streamHtml}</div>
+      ${showNav ? `
+      <div class="wrap nav-between">
+        <a href="essay.html?id=${encodeURIComponent(prevItem.id)}">
+          <span class="dir">← Previous</span>${esc(prevItem.title)}
+        </a>
+        <a href="essay.html?id=${encodeURIComponent(nextItem.id)}" style="text-align:right;">
+          <span class="dir">Next →</span>${esc(nextItem.title)}
+        </a>
+      </div>` : ''}
+    `;
+  }
+
+  loadEssay();
+</script>
+
+</body>
+</html>

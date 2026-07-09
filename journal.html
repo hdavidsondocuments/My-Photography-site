@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Journal — H. Davidson</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="masthead" id="masthead" data-solid="true">
+  <div class="nav-row">
+    <a class="brand" href="index.html">H. Davidson
+      <span class="sub">Documentary Photographer</span>
+    </a>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <nav class="links" id="navLinks">
+      <a href="index.html">Home</a>
+      <a href="work.html">Work</a>
+      <a href="journal.html" class="active">Journal</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="page-hero wrap reveal">
+    <div class="eyebrow mono">Field Notes</div>
+    <h1>Journal</h1>
+    <p>Short dispatches from the field — context, process, and the stories behind the stories.</p>
+  </div>
+
+  <section>
+    <div class="wrap">
+      <div class="journal-list reveal" id="journalList"></div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap footer-row">
+    <span class="mono">© 2026 H. Davidson — All images and text reserved</span>
+    <span class="mono">Documentary Photography / Photojournalism</span>
+  </div>
+</footer>
+
+<script src="site.js"></script>
+<script>
+  initSite();
+  loadJSON('content/journal.json').then(data => { renderJournal(data); initReveal(); });
+</script>
+
+</body>
+</html>

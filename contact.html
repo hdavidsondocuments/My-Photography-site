@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact — H. Davidson</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="masthead" id="masthead" data-solid="true">
+  <div class="nav-row">
+    <a class="brand" href="index.html">H. Davidson
+      <span class="sub">Documentary Photographer</span>
+    </a>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+    <nav class="links" id="navLinks">
+      <a href="index.html">Home</a>
+      <a href="work.html">Work</a>
+      <a href="journal.html">Journal</a>
+      <a href="about.html">About</a>
+      <a href="contact.html" class="active">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <div class="page-hero wrap reveal">
+    <div class="eyebrow mono">Get in touch</div>
+    <h1>Contact</h1>
+    <p>For press inquiries, editorial commissions, or collaborations — reach out below.</p>
+  </div>
+
+  <section>
+    <div class="wrap contact-grid reveal">
+      <form id="contactForm">
+        <div class="field">
+          <label class="mono" for="name">Name</label>
+          <input type="text" id="name" name="name" required>
+        </div>
+        <div class="field">
+          <label class="mono" for="email">Email</label>
+          <input type="email" id="email" name="email" required>
+        </div>
+        <div class="field">
+          <label class="mono" for="subject">Subject</label>
+          <input type="text" id="subject" name="subject" placeholder="Press inquiry, commission, collaboration...">
+        </div>
+        <div class="field">
+          <label class="mono" for="message">Message</label>
+          <textarea id="message" name="message" required></textarea>
+        </div>
+        <button type="submit" class="submit">Send message</button>
+        <p class="form-note mono" id="formNote">Message received — I'll reply as soon as I can.</p>
+      </form>
+
+      <div class="press-card">
+        <div class="row">
+          <span class="mono">Email</span>
+          <span class="val" id="contactEmail">—</span>
+        </div>
+        <div class="row">
+          <span class="mono">Press &amp; syndication</span>
+          <span class="val" id="contactPressEmail">—</span>
+        </div>
+        <div class="row">
+          <span class="mono">Based in</span>
+          <span class="val" id="contactLocation">—</span>
+        </div>
+        <div class="social-row">
+          <a href="#" id="socialInstagram">Instagram</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap footer-row">
+    <span class="mono">© 2026 H. Davidson — All images and text reserved</span>
+    <span class="mono">Documentary Photography / Photojournalism</span>
+  </div>
+</footer>
+
+<script src="site.js"></script>
+<script>
+  initSite();
+  loadJSON('content/about.json').then(data => { renderContactPage(data); initReveal(); });
+</script>
+
+</body>
+</html>

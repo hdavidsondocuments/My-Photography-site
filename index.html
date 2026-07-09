@@ -7,451 +7,47 @@
 <meta name="description" content="Documentary photography and photojournalism portfolio.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-<style>
-  :root{
-    --paper:#171512;
-    --paper-alt:#211E19;
-    --ink:#EDE6D8;
-    --ink-soft:#C9C0AE;
-    --ash:#A79C88;
-    --archive-red:#C1533C;
-    --field-green:#8A9873;
-    --line:#3A362E;
-    --overlay-light:#EDE6D8;
-    --max: 1180px;
-  }
-
-  *{box-sizing:border-box;}
-  html{scroll-behavior:smooth;}
-  body{
-    margin:0;
-    background:var(--paper);
-    color:var(--ink);
-    font-family:'Source Serif 4', Georgia, serif;
-    font-size:17px;
-    line-height:1.6;
-    -webkit-font-smoothing:antialiased;
-  }
-  img{max-width:100%;display:block;}
-  a{color:inherit;}
-
-  h1,h2,h3,.display{
-    font-family:'Fraunces', Georgia, serif;
-    font-weight:600;
-    letter-spacing:-0.01em;
-    margin:0;
-  }
-  .mono{
-    font-family:'IBM Plex Mono', monospace;
-    letter-spacing:0.06em;
-    text-transform:uppercase;
-    font-size:0.72rem;
-  }
-  .wrap{max-width:var(--max); margin:0 auto; padding:0 32px;}
-
-  /* ============ NAV ============ */
-  header.masthead{
-    position:fixed; top:0; left:0; right:0; z-index:100;
-    background:rgba(23,21,18,0);
-    border-bottom:1px solid rgba(58,54,46,0);
-    transition:background .35s ease, border-color .35s ease;
-  }
-  header.masthead.scrolled{
-    background:rgba(23,21,18,0.94);
-    border-bottom:1px solid var(--line);
-    backdrop-filter:blur(6px);
-  }
-  .nav-row{
-    display:flex; align-items:center; justify-content:space-between;
-    padding:18px 32px;
-  }
-  .brand{
-    font-family:'Fraunces', serif; font-weight:600; font-size:1.15rem;
-    letter-spacing:0.01em;
-  }
-  .brand .sub{
-    display:block; font-family:'IBM Plex Mono', monospace; font-size:0.6rem;
-    letter-spacing:0.14em; text-transform:uppercase; color:var(--ash); margin-top:2px;
-  }
-  nav.links{display:flex; gap:28px; align-items:center;}
-  nav.links a{
-    text-decoration:none; font-family:'IBM Plex Mono', monospace;
-    font-size:0.72rem; letter-spacing:0.1em; text-transform:uppercase;
-    color:var(--ink-soft); position:relative; padding-bottom:4px;
-  }
-  nav.links a::after{
-    content:''; position:absolute; left:0; bottom:0; width:0; height:1px;
-    background:var(--archive-red); transition:width .25s ease;
-  }
-  nav.links a:hover::after{width:100%;}
-  .nav-toggle{display:none; background:none; border:none; cursor:pointer; padding:6px;}
-  .nav-toggle span{display:block; width:22px; height:2px; background:var(--ink); margin:5px 0; transition:.3s;}
-
-  @media (max-width:820px){
-    nav.links{
-      position:fixed; top:64px; left:0; right:0; background:var(--paper);
-      flex-direction:column; align-items:flex-start; gap:0;
-      border-bottom:1px solid var(--line);
-      max-height:0; overflow:hidden; transition:max-height .3s ease;
-    }
-    nav.links.open{max-height:340px;}
-    nav.links a{width:100%; padding:16px 32px; border-top:1px solid var(--line);}
-    .nav-toggle{display:block;}
-  }
-
-  /* ============ HERO ============ */
-  .hero{
-    position:relative; height:100vh; min-height:560px;
-    display:flex; align-items:flex-end;
-    overflow:hidden;
-  }
-  .hero img{
-    position:absolute; inset:0; width:100%; height:100%; object-fit:cover;
-    filter:saturate(0.9) contrast(1.05);
-  }
-  .hero::after{
-    content:''; position:absolute; inset:0;
-    background:linear-gradient(180deg, rgba(28,27,25,0.05) 0%, rgba(28,27,25,0.15) 50%, rgba(28,27,25,0.82) 100%);
-  }
-  .hero-content{position:relative; z-index:2; color:var(--overlay-light); padding:0 32px 72px; width:100%;}
-  .hero-eyebrow{color:#E8E1CF; margin-bottom:18px; opacity:0.85;}
-  .hero h1{
-    font-size:clamp(2.4rem, 6vw, 5rem);
-    font-style:italic; font-weight:500; line-height:1.02;
-    max-width:14ch;
-  }
-  .hero p.dek{
-    font-family:'Source Serif 4', serif; font-size:1.05rem; max-width:46ch;
-    margin-top:22px; color:#EDE7D8;
-  }
-  .scroll-cue{
-    position:absolute; bottom:26px; left:32px; z-index:2;
-    color:var(--overlay-light); display:flex; align-items:center; gap:10px;
-  }
-  .scroll-cue .line{width:36px; height:1px; background:var(--overlay-light); opacity:0.6;}
-
-  /* ============ SECTION SCAFFOLDING ============ */
-  section{padding:104px 0; border-bottom:1px solid var(--line); scroll-margin-top:90px;}
-  section:last-of-type{border-bottom:none;}
-  .section-head{display:flex; align-items:flex-end; justify-content:space-between; gap:24px; margin-bottom:56px; flex-wrap:wrap;}
-  .section-head .eyebrow{color:var(--archive-red); margin-bottom:10px;}
-  .section-head h2{font-size:clamp(1.8rem, 3.4vw, 2.6rem); font-style:italic; font-weight:500;}
-  .section-head p{max-width:46ch; color:var(--ash); font-size:0.95rem; margin-top:10px;}
-
-  .reveal{opacity:0; transform:translateY(18px); transition:opacity .7s ease, transform .7s ease;}
-  .reveal.in{opacity:1; transform:translateY(0);}
-  @media (prefers-reduced-motion: reduce){
-    .reveal{opacity:1; transform:none; transition:none;}
-    html{scroll-behavior:auto;}
-  }
-
-  /* ============ CONTACT SHEET (signature motif) ============ */
-  .sprocket-strip{
-    height:14px;
-    background-image:radial-gradient(circle, var(--ink) 1.6px, transparent 2px);
-    background-size:22px 14px;
-    background-repeat:repeat-x;
-    background-position:center;
-    opacity:0.28;
-  }
-  .contact-sheet{
-    background:var(--paper-alt); border-top:1px solid var(--line); border-bottom:1px solid var(--line);
-    padding:2px 0;
-  }
-  .frames{
-    display:grid; grid-template-columns:repeat(3, 1fr); gap:1px;
-    background:var(--line);
-  }
-  .frame{
-    position:relative; background:#100F0D; overflow:hidden;
-    aspect-ratio:4/5;
-  }
-  .frame img{width:100%; height:100%; object-fit:cover; opacity:0.92; transition:transform .6s ease, opacity .3s ease;}
-  .frame:hover img{transform:scale(1.045); opacity:1;}
-  .frame-label{
-    position:absolute; top:10px; left:10px; z-index:2;
-    color:var(--overlay-light); font-family:'IBM Plex Mono',monospace; font-size:0.62rem;
-    letter-spacing:0.08em; text-transform:uppercase;
-    background:rgba(10,9,8,0.6); padding:4px 8px;
-  }
-  .frame-cap{
-    position:absolute; bottom:0; left:0; right:0; z-index:2; padding:12px 12px 10px;
-    background:linear-gradient(0deg, rgba(10,9,8,0.9), transparent);
-    color:var(--overlay-light); font-family:'IBM Plex Mono',monospace; font-size:0.66rem; letter-spacing:0.03em;
-  }
-
-  /* ============ WORK / STORIES ============ */
-  .story{
-    display:grid; grid-template-columns:1.1fr 1fr; gap:56px; align-items:center;
-    padding:64px 0;
-  }
-  .story:not(:last-child){border-bottom:1px solid var(--line);}
-  .story.reverse{grid-template-columns:1fr 1.1fr;}
-  .story.reverse .story-media{order:2;}
-  .story.reverse .story-text{order:1;}
-  .story-media img{width:100%; aspect-ratio:5/4; object-fit:cover;}
-  .story-eyebrow{color:var(--field-green); margin-bottom:14px;}
-  .story h3{font-size:clamp(1.5rem, 2.6vw, 2.1rem); font-style:italic; font-weight:500; margin-bottom:16px;}
-  .story p{color:var(--ink-soft); font-size:0.98rem;}
-  .story-link{
-    display:inline-block; margin-top:18px; font-family:'IBM Plex Mono', monospace;
-    font-size:0.72rem; letter-spacing:0.08em; text-transform:uppercase;
-    text-decoration:none; border-bottom:1px solid var(--ink); padding-bottom:2px;
-  }
-  .story-thumbs{display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin-top:18px;}
-  .story-thumbs img{aspect-ratio:1/1; object-fit:cover;}
-
-  @media (max-width:820px){
-    .story, .story.reverse{grid-template-columns:1fr; gap:24px;}
-    .story.reverse .story-media, .story.reverse .story-text{order:0;}
-  }
-
-  /* ============ JOURNAL ============ */
-  .journal-list{display:flex; flex-direction:column;}
-  .journal-entry{
-    display:grid; grid-template-columns:150px 1fr; gap:32px;
-    padding:32px 0; border-top:1px solid var(--line);
-  }
-  .journal-entry:last-child{border-bottom:1px solid var(--line);}
-  .journal-date{color:var(--ash); padding-top:4px;}
-  .journal-entry h3{font-size:1.3rem; font-style:italic; font-weight:500; margin-bottom:10px;}
-  .journal-entry p{color:var(--ink-soft); font-size:0.95rem; margin:0 0 12px;}
-  .journal-entry a{
-    font-family:'IBM Plex Mono',monospace; font-size:0.68rem; letter-spacing:0.08em;
-    text-transform:uppercase; text-decoration:none; color:var(--archive-red);
-  }
-  @media (max-width:600px){
-    .journal-entry{grid-template-columns:1fr; gap:10px;}
-  }
-
-  /* ============ PRESS ============ */
-  .press-grid{display:grid; grid-template-columns:repeat(auto-fill, minmax(280px,1fr)); gap:1px; background:var(--line); border:1px solid var(--line);}
-  .press-item{
-    background:var(--paper); padding:26px 24px; min-height:150px;
-    display:flex; flex-direction:column; justify-content:space-between;
-  }
-  .press-item .frame-tag{color:var(--archive-red); margin-bottom:14px;}
-  .press-item h4{font-family:'Fraunces',serif; font-weight:600; font-size:1.05rem; margin:0 0 6px;}
-  .press-item p{margin:0; color:var(--ash); font-size:0.85rem;}
-  .press-item a{
-    margin-top:14px; font-family:'IBM Plex Mono',monospace; font-size:0.65rem;
-    letter-spacing:0.08em; text-transform:uppercase; text-decoration:none; color:var(--ink-soft);
-    display:inline-flex; align-items:center; gap:6px;
-  }
-
-  /* ============ ABOUT ============ */
-  .about-grid{display:grid; grid-template-columns:0.85fr 1.15fr; gap:64px; align-items:start;}
-  .about-grid img{width:100%; aspect-ratio:4/5; object-fit:cover;}
-  blockquote{
-    font-family:'Fraunces', serif; font-style:italic; font-weight:500;
-    font-size:clamp(1.3rem, 2.4vw, 1.7rem); line-height:1.35; margin:28px 0;
-    color:var(--ink); border-left:2px solid var(--archive-red); padding-left:22px;
-  }
-  .about-grid p{color:var(--ink-soft);}
-  .about-meta{
-    display:flex; gap:28px; margin-top:28px; flex-wrap:wrap;
-  }
-  .about-meta div .mono{color:var(--ash); display:block; margin-bottom:4px;}
-  .about-meta div span.val{font-family:'IBM Plex Mono',monospace; font-size:0.85rem;}
-  @media (max-width:820px){.about-grid{grid-template-columns:1fr;}}
-
-  /* ============ CONTACT ============ */
-  .contact-grid{display:grid; grid-template-columns:1fr 1fr; gap:64px;}
-  form .field{margin-bottom:20px;}
-  form label{display:block; margin-bottom:8px;}
-  form input, form textarea{
-    width:100%; background:transparent; border:none; border-bottom:1px solid var(--line);
-    padding:10px 2px; font-family:'Source Serif 4', serif; font-size:1rem; color:var(--ink);
-    transition:border-color .2s ease;
-  }
-  form input:focus, form textarea:focus{outline:none; border-bottom-color:var(--archive-red);}
-  form textarea{resize:vertical; min-height:100px;}
-  button.submit{
-    margin-top:8px; background:var(--ink); color:var(--paper); border:none;
-    font-family:'IBM Plex Mono',monospace; font-size:0.75rem; letter-spacing:0.1em; text-transform:uppercase;
-    padding:14px 28px; cursor:pointer; transition:background .2s ease;
-  }
-  button.submit:hover{background:var(--archive-red);}
-  button.submit:focus-visible, a:focus-visible, nav.links a:focus-visible{outline:2px solid var(--archive-red); outline-offset:3px;}
-  .form-note{margin-top:14px; color:var(--field-green); display:none;}
-  .form-note.show{display:block;}
-
-  .press-card{
-    border:1px solid var(--line); padding:32px; background:var(--paper-alt);
-  }
-  .press-card .mono{color:var(--ash); display:block; margin-bottom:6px;}
-  .press-card .row{padding:14px 0; border-top:1px solid var(--line);}
-  .press-card .row:first-of-type{border-top:none;}
-  .press-card .row span.val{font-family:'IBM Plex Mono',monospace; font-size:0.9rem;}
-  .social-row{display:flex; gap:18px; margin-top:18px;}
-  .social-row a{font-family:'IBM Plex Mono',monospace; font-size:0.72rem; text-decoration:none; letter-spacing:0.06em; text-transform:uppercase; border-bottom:1px solid var(--ink);}
-
-  @media (max-width:820px){.contact-grid{grid-template-columns:1fr;}}
-
-  /* ============ FOOTER ============ */
-  footer{padding:36px 0; }
-  .footer-row{display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; color:var(--ash);}
-  .footer-row .mono{color:var(--ash);}
-
-  ::selection{background:var(--archive-red); color:var(--paper);}
-</style>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
 
 <header class="masthead" id="masthead">
   <div class="nav-row">
-    <div class="brand">H. Davidson
+    <a class="brand" href="index.html">H. Davidson
       <span class="sub">Documentary Photographer</span>
-    </div>
+    </a>
     <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation" aria-expanded="false">
       <span></span><span></span><span></span>
     </button>
     <nav class="links" id="navLinks">
-      <a href="#work">Work</a>
-      <a href="#journal">Journal</a>
-      <a href="#about">About</a>
-      <a href="#contact">Contact</a>
+      <a href="index.html" class="active">Home</a>
+      <a href="work.html">Work</a>
+      <a href="journal.html">Journal</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
     </nav>
   </div>
 </header>
 
-<!-- HERO -->
-<section class="hero" style="border-bottom:none; padding:0;">
-  <img src="https://picsum.photos/seed/meridian-hero/1800/2200" alt="Documentary photograph, placeholder hero image">
-  <div class="hero-content">
-    <div class="hero-eyebrow mono">Documentary &amp; Editorial Photography — Est. Field Notes Since 2014</div>
-    <h1>Stories worth staying for.</h1>
-    <p class="dek">I make images at the edges of ordinary life — the long shifts, the quiet rooms, the places the news cycle moves past too quickly. This is a working archive of that record.</p>
-  </div>
-  <div class="scroll-cue mono"><span class="line"></span> Scroll</div>
-</section>
-
-<!-- RECENT DISPATCHES (contact sheet teaser) -->
-<section id="dispatches" style="padding-top:88px;">
-  <div class="wrap reveal">
-    <div class="section-head">
-      <div>
-        <div class="eyebrow mono">Contact Sheet 001</div>
-        <h2>Recent dispatches</h2>
-        <p>A running selection from current assignments and personal projects, sequenced as they were shot.</p>
-      </div>
+<main>
+  <section class="hero">
+    <img id="heroBg" src="https://picsum.photos/seed/hdavidson-hero/1600/2000" alt="Portrait of H. Davidson">
+    <div class="hero-content">
+      <div class="hero-eyebrow mono">Documentary &amp; Editorial Photography</div>
+      <h1 id="heroName">H. Davidson</h1>
+      <p class="dek" id="heroTagline">Documentary stories from the edges of ordinary life — night shifts, small towns, slow recoveries.</p>
+      <a class="cta-link" href="work.html">View the Work →</a>
     </div>
-  </div>
-  <div class="contact-sheet">
-    <div class="sprocket-strip"></div>
-    <div class="wrap" style="padding:0;">
-      <div class="frames" id="dispatchFrames"></div>
-    </div>
-    <div class="sprocket-strip"></div>
-  </div>
-</section>
+    <div class="scroll-cue mono"><span class="line"></span> Scroll</div>
+  </section>
 
-<!-- WORK / STORIES -->
-<section id="work">
-  <div class="wrap">
-    <div class="section-head reveal">
-      <div>
-        <div class="eyebrow mono">The Work</div>
-        <h2>Photo essays &amp; long-form projects</h2>
-        <p>Each project below is a sustained piece of documentary work — not a single frame, but a record built over weeks or years.</p>
-      </div>
+  <section class="home-intro">
+    <div class="wrap reveal">
+      <p id="homeIntroText">I make images at the edges of ordinary life — the long shifts, the quiet rooms, the places the news cycle moves past too quickly. This is a working archive of that record.</p>
     </div>
-
-    <div id="essaysList"></div>
-  </div>
-</section>
-
-<!-- JOURNAL -->
-<section id="journal">
-  <div class="wrap">
-    <div class="section-head reveal">
-      <div>
-        <div class="eyebrow mono">Field Notes</div>
-        <h2>Journal</h2>
-        <p>Short dispatches from the field — context, process, and the stories behind the stories.</p>
-      </div>
-    </div>
-    <div class="journal-list reveal" id="journalList"></div>
-  </div>
-</section>
-
-<!-- PRESS section removed for now — bring it back once you have publications to show.
-     The data file (content/press.json) and editor panel are still set up and ready;
-     just ask Claude to re-add this section when you're ready, or restore it from
-     an earlier version of this file. -->
-
-<!-- ABOUT -->
-<section id="about">
-  <div class="wrap about-grid">
-    <div class="reveal">
-      <img id="aboutPortrait" src="https://picsum.photos/seed/meridian-portrait/700/875" alt="Portrait of the photographer">
-    </div>
-    <div class="reveal">
-      <div class="eyebrow mono" style="color:var(--archive-red); margin-bottom:14px;">About</div>
-      <h2 style="font-size:clamp(1.8rem,3vw,2.4rem); font-style:italic; font-weight:500; margin-bottom:20px;">H. Davidson</h2>
-      <p id="aboutBio">Loading…</p>
-      <blockquote id="aboutQuote"></blockquote>
-      <div class="about-meta">
-        <div><span class="mono">Based in</span><span class="val" id="aboutLocation">—</span></div>
-        <div><span class="mono">Available for</span><span class="val">Editorial / Documentary</span></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- CONTACT -->
-<section id="contact">
-  <div class="wrap">
-    <div class="section-head reveal">
-      <div>
-        <div class="eyebrow mono">Get in touch</div>
-        <h2>Contact</h2>
-        <p>For press inquiries, editorial commissions, or collaborations — reach out below.</p>
-      </div>
-    </div>
-    <div class="contact-grid reveal">
-      <form id="contactForm">
-        <div class="field">
-          <label class="mono" for="name">Name</label>
-          <input type="text" id="name" name="name" required>
-        </div>
-        <div class="field">
-          <label class="mono" for="email">Email</label>
-          <input type="email" id="email" name="email" required>
-        </div>
-        <div class="field">
-          <label class="mono" for="subject">Subject</label>
-          <input type="text" id="subject" name="subject" placeholder="Press inquiry, commission, collaboration...">
-        </div>
-        <div class="field">
-          <label class="mono" for="message">Message</label>
-          <textarea id="message" name="message" required></textarea>
-        </div>
-        <button type="submit" class="submit">Send message</button>
-        <p class="form-note mono" id="formNote">Message received — I'll reply as soon as I can.</p>
-      </form>
-
-      <div class="press-card">
-        <div class="row">
-          <span class="mono">Email</span>
-          <span class="val" id="contactEmail">—</span>
-        </div>
-        <div class="row">
-          <span class="mono">Press &amp; syndication</span>
-          <span class="val" id="contactPressEmail">—</span>
-        </div>
-        <div class="row">
-          <span class="mono">Based in</span>
-          <span class="val" id="contactLocation">—</span>
-        </div>
-        <div class="social-row">
-          <a href="#" id="socialInstagram">Instagram</a>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
+  </section>
+</main>
 
 <footer>
   <div class="wrap footer-row">
@@ -462,7 +58,6 @@
 
 <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
 <script>
-  // Required so Netlify Identity invite/recovery email links land back on /admin correctly.
   if (window.netlifyIdentity) {
     window.netlifyIdentity.on("init", user => {
       if (!user) {
@@ -471,154 +66,10 @@
     });
   }
 </script>
+<script src="site.js"></script>
 <script>
-  // Nav scroll state
-  const header = document.getElementById('masthead');
-  const onScroll = () => header.classList.toggle('scrolled', window.scrollY > 40);
-  window.addEventListener('scroll', onScroll);
-  onScroll();
-
-  // Mobile nav toggle
-  const navToggle = document.getElementById('navToggle');
-  const navLinks = document.getElementById('navLinks');
-  navToggle.addEventListener('click', () => {
-    const open = navLinks.classList.toggle('open');
-    navToggle.setAttribute('aria-expanded', open);
-  });
-  navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
-    navLinks.classList.remove('open');
-    navToggle.setAttribute('aria-expanded', 'false');
-  }));
-
-  // Contact form (static placeholder — wire to a form backend, e.g. Formspree, to go live)
-  const form = document.getElementById('contactForm');
-  const note = document.getElementById('formNote');
-  form.addEventListener('submit', (e) => {
-    e.preventDefault();
-    note.classList.add('show');
-    form.reset();
-  });
-
-  // ============ CMS CONTENT LOADING ============
-  // Pulls content from /content/*.json — the same files Decap CMS (at /admin) edits.
-  // Falls back to placeholder text/images if a file can't be fetched (e.g. opening this
-  // file directly from disk, where fetch() is blocked by the browser).
-
-  function esc(str){
-    const d = document.createElement('div');
-    d.textContent = str || '';
-    return d.innerHTML;
-  }
-
-  async function loadJSON(path){
-    try{
-      const res = await fetch(path, {cache:'no-store'});
-      if(!res.ok) throw new Error('not ok');
-      return await res.json();
-    }catch(err){
-      return null;
-    }
-  }
-
-  function renderDispatches(data){
-    const el = document.getElementById('dispatchFrames');
-    if(!data || !data.items) return;
-    el.innerHTML = data.items.slice(0,3).map(f => `
-      <div class="frame"><img src="${esc(f.image)}" alt="${esc(f.caption)}">
-        <div class="frame-label">${esc(f.frame)}</div>
-        <div class="frame-cap">${esc(f.caption)}</div>
-      </div>`).join('');
-  }
-
-  function renderEssays(data){
-    const el = document.getElementById('essaysList');
-    if(!data || !data.items) return;
-    el.innerHTML = data.items.map((s, i) => `
-      <div class="story ${i % 2 === 1 ? 'reverse' : ''} reveal">
-        <div class="story-media"><img src="${esc(s.image)}" alt="${esc(s.title)}"></div>
-        <div class="story-text">
-          <div class="story-eyebrow mono">${esc(s.label)}</div>
-          <h3>${esc(s.title)}</h3>
-          <p>${esc(s.description)}</p>
-          <div class="story-thumbs">
-            <img src="${esc(s.thumb1)}" alt="Supporting image">
-            <img src="${esc(s.thumb2)}" alt="Supporting image">
-            <img src="${esc(s.thumb3)}" alt="Supporting image">
-          </div>
-          ${s.link ? `<a class="story-link" href="${esc(s.link)}">Read the full story →</a>` : ''}
-        </div>
-      </div>`).join('');
-  }
-
-  function renderJournal(data){
-    const el = document.getElementById('journalList');
-    if(!data) return;
-    if(!data.entries || data.entries.length === 0){
-      el.innerHTML = `<p style="color:var(--ash); padding:32px 0; border-top:1px solid var(--line); border-bottom:1px solid var(--line);">New field notes coming soon.</p>`;
-      return;
-    }
-    el.innerHTML = data.entries.map(e => `
-      <div class="journal-entry">
-        <div class="journal-date mono">${esc(e.date)}</div>
-        <div>
-          <h3>${esc(e.title)}</h3>
-          <p>${esc(e.excerpt)}</p>
-          <a href="${esc(e.link || '#')}">Continue reading →</a>
-        </div>
-      </div>`).join('');
-  }
-
-  function renderPress(data){
-    const el = document.getElementById('pressGrid');
-    if(!data || !data.items) return;
-    el.innerHTML = data.items.map(p => `
-      <div class="press-item">
-        <div>
-          <div class="frame-tag mono">${esc(p.frame)}</div>
-          <h4>${esc(p.publication)}</h4>
-          <p>${esc(p.description)}</p>
-        </div>
-        <a href="${esc(p.link || '#')}">View placement ↗</a>
-      </div>`).join('');
-  }
-
-  function renderAbout(data){
-    if(!data) return;
-    document.getElementById('aboutBio').textContent = data.bio || '';
-    document.getElementById('aboutQuote').textContent = data.quote || '';
-    document.getElementById('aboutLocation').textContent = data.location || '';
-    document.getElementById('contactEmail').textContent = data.email || '';
-    document.getElementById('contactPressEmail').textContent = data.pressEmail || '';
-    document.getElementById('contactLocation').textContent = data.location || '';
-    if(data.portrait) document.getElementById('aboutPortrait').src = data.portrait;
-    if(data.instagram) document.getElementById('socialInstagram').href = data.instagram;
-  }
-
-  function initReveal(){
-    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if(!reduceMotion && 'IntersectionObserver' in window){
-      const io = new IntersectionObserver((entries) => {
-        entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
-      }, {threshold:0.12});
-      document.querySelectorAll('.reveal').forEach(el => io.observe(el));
-    } else {
-      document.querySelectorAll('.reveal').forEach(el => el.classList.add('in'));
-    }
-  }
-
-  (async function loadAllContent(){
-    const [dispatches, essays, journal, about] = await Promise.all([
-      loadJSON('content/dispatches.json'),
-      loadJSON('content/essays.json'),
-      loadJSON('content/journal.json'),
-      loadJSON('content/about.json'),
-    ]);
-    renderDispatches(dispatches);
-    renderEssays(essays);
-    renderJournal(journal);
-    renderAbout(about);
-    initReveal();
-  })();
+  initSite();
+  loadJSON('content/about.json').then(data => { renderHome(data); initReveal(); });
 </script>
 
 </body>

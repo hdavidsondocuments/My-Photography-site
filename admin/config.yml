@@ -94,7 +94,7 @@ collections:
 
   - name: "journal"
     label: "📝 Journal Entries"
-    description: "Short field-note style posts. Newest entries should go at the top of the list."
+    description: "The story behind a single photo — how it happened, what it took, what it means. Each entry gets its own photo and a deeper narrative than a caption allows."
     files:
       - file: "content/journal.json"
         label: "Journal"
@@ -107,5 +107,5 @@ collections:
             fields:
               - {label: "Date", name: "date", widget: "string", hint: "e.g. Jul 2, 2026"}
               - {label: "Title", name: "title", widget: "string"}
-              - {label: "Excerpt", name: "excerpt", widget: "text", hint: "2–3 sentences"}
-              - {label: "Link (optional)", name: "link", widget: "string", required: false, hint: "Leave blank if this entry doesn't link anywhere yet"}
+              - {label: "Photo", name: "image", widget: "image", hint: "The single photo this entry is about"}
+              - {label: "The Story", name: "story", widget: "text", hint: "The full story behind this photo — how it happened, what it took to get it, what it means. Leave a blank line between paragraphs if you want more than one."}

@@ -128,15 +128,16 @@ function renderJournal(data){
     el.innerHTML = `<p style="color:var(--ash); padding:32px 0; border-top:1px solid var(--line); border-bottom:1px solid var(--line);">New field notes coming soon.</p>`;
     return;
   }
-  el.innerHTML = data.entries.map(e => `
-    <div class="journal-entry">
-      <div class="journal-date mono">${esc(e.date)}</div>
-      <div>
+  el.innerHTML = data.entries.map((e, i) => `
+    <div class="journal-entry ${i % 2 === 1 ? 'reverse' : ''} reveal">
+      <div class="journal-photo"><img src="${esc(e.image)}" alt="${esc(e.title)}"></div>
+      <div class="journal-text">
+        <div class="journal-date mono">${esc(e.date)}</div>
         <h3>${esc(e.title)}</h3>
-        <p>${esc(e.excerpt)}</p>
-        <a href="${esc(e.link || '#')}">Continue reading →</a>
+        <div class="journal-story">${esc(e.story).split('\n\n').map(p => `<p style="margin-bottom:14px;">${p}</p>`).join('')}</div>
       </div>
     </div>`).join('');
+  initReveal();
 }
 
 function renderAboutPage(data){

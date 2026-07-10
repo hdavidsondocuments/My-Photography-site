@@ -107,5 +107,5 @@ collections:
             fields:
               - {label: "Date", name: "date", widget: "string", hint: "e.g. Jul 2, 2026"}
               - {label: "Title", name: "title", widget: "string"}
-              - {label: "Photo", name: "image", widget: "image", hint: "The single photo this entry is about"}
-              - {label: "The Story", name: "story", widget: "text", hint: "The full story behind this photo — how it happened, what it took to get it, what it means. Leave a blank line between paragraphs if you want more than one."}
+              - {label: "Photos (up to 5)", name: "images", widget: "image", multiple: true, hint: "Select up to 5 photos for this entry — readers can click through them, or expand to fullscreen"}
+              - {label: "The Story", name: "story", widget: "text", hint: "The full story behind these photos — how it happened, what it took to get them, what it means. Leave a blank line between paragraphs if you want more than one."}

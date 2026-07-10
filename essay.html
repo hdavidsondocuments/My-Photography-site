@@ -22,46 +22,6 @@
   .back-link:hover{border-bottom-color:var(--archive-red); color:var(--ink);}
 
   .stream figure{cursor:zoom-in;}
-
-  .lightbox{
-    position:fixed; inset:0; z-index:1000; background:rgba(17,17,17,0.96);
-    display:none; align-items:center; justify-content:center; flex-direction:column;
-  }
-  .lightbox.open{display:flex;}
-  .lightbox-img-wrap{
-    max-width:92vw; max-height:78vh; display:flex; align-items:center; justify-content:center;
-  }
-  .lightbox img{max-width:92vw; max-height:78vh; width:auto; height:auto; object-fit:contain;}
-  .lightbox-caption{
-    color:var(--overlay-light); font-family:'IBM Plex Mono',monospace; font-size:0.75rem;
-    letter-spacing:0.04em; margin-top:18px; text-align:center;
-  }
-  .lightbox-counter{
-    color:var(--ash); font-family:'IBM Plex Mono',monospace; font-size:0.68rem;
-    letter-spacing:0.08em; text-transform:uppercase; margin-top:8px;
-  }
-  .lightbox-close{
-    position:absolute; top:24px; right:28px; z-index:1002;
-    background:none; border:1px solid rgba(247,246,242,0.4); color:var(--overlay-light);
-    font-family:'IBM Plex Mono',monospace; font-size:0.7rem; letter-spacing:0.08em; text-transform:uppercase;
-    padding:9px 16px; cursor:pointer;
-  }
-  .lightbox-close:hover{border-color:var(--overlay-light);}
-  .lightbox-arrow{
-    position:absolute; top:50%; transform:translateY(-50%); z-index:1002;
-    background:none; border:1px solid rgba(247,246,242,0.4); color:var(--overlay-light);
-    width:52px; height:52px; font-size:1.4rem; cursor:pointer; line-height:1;
-    display:flex; align-items:center; justify-content:center;
-  }
-  .lightbox-arrow:hover{border-color:var(--overlay-light); background:rgba(247,246,242,0.08);}
-  .lightbox-arrow.prev{left:20px;}
-  .lightbox-arrow.next{right:20px;}
-  @media (max-width:700px){
-    .lightbox-arrow{width:42px; height:42px; font-size:1.15rem;}
-    .lightbox-arrow.prev{left:8px;}
-    .lightbox-arrow.next{right:8px;}
-    .lightbox-close{top:14px; right:14px;}
-  }
 </style>
 </head>
 <body>
@@ -73,17 +33,6 @@
 
 <div id="content">
   <div class="loading mono">Loading essay…</div>
-</div>
-
-<div class="lightbox" id="lightbox">
-  <button class="lightbox-close" id="lightboxClose">Close ✕</button>
-  <button class="lightbox-arrow prev" id="lightboxPrev" aria-label="Previous photo">‹</button>
-  <div class="lightbox-img-wrap">
-    <img id="lightboxImg" src="" alt="">
-  </div>
-  <button class="lightbox-arrow next" id="lightboxNext" aria-label="Next photo">›</button>
-  <div class="lightbox-caption" id="lightboxCaption"></div>
-  <div class="lightbox-counter" id="lightboxCounter"></div>
 </div>
 
 <script src="site.js"></script>
@@ -143,53 +92,10 @@
       </div>` : ''}
     `;
 
-    initLightbox(photos, essay.title);
-  }
-
-  function initLightbox(photos, essayTitle){
-    const lightbox = document.getElementById('lightbox');
-    const lbImg = document.getElementById('lightboxImg');
-    const lbCaption = document.getElementById('lightboxCaption');
-    const lbCounter = document.getElementById('lightboxCounter');
-    let current = 0;
-
-    function show(i){
-      current = (i + photos.length) % photos.length;
-      const p = photos[current];
-      lbImg.src = p.image;
-      lbImg.alt = p.caption || essayTitle;
-      lbCaption.textContent = p.caption || '';
-      lbCounter.textContent = (current + 1) + ' / ' + photos.length;
-    }
-
-    function open(i){
-      show(i);
-      lightbox.classList.add('open');
-      document.body.style.overflow = 'hidden';
-    }
-
-    function close(){
-      lightbox.classList.remove('open');
-      document.body.style.overflow = '';
-    }
-
     document.querySelectorAll('.lightbox-trigger').forEach(fig => {
-      fig.addEventListener('click', () => open(parseInt(fig.dataset.index, 10)));
-    });
-
-    document.getElementById('lightboxClose').addEventListener('click', close);
-    document.getElementById('lightboxPrev').addEventListener('click', () => show(current - 1));
-    document.getElementById('lightboxNext').addEventListener('click', () => show(current + 1));
-
-    lightbox.addEventListener('click', (e) => {
-      if(e.target === lightbox) close();
-    });
-
-    document.addEventListener('keydown', (e) => {
-      if(!lightbox.classList.contains('open')) return;
-      if(e.key === 'ArrowLeft') show(current - 1);
-      else if(e.key === 'ArrowRight') show(current + 1);
-      else if(e.key === 'Escape') close();
+      fig.addEventListener('click', () => {
+        openLightbox(photos, parseInt(fig.dataset.index, 10), essay.title);
+      });
     });
   }
 

@@ -273,7 +273,8 @@ function renderJournal(data){
   el.querySelectorAll('.stack-wrap').forEach(wrap => {
     const i = parseInt(wrap.dataset.entry, 10);
     const entry = data.entries[i];
-    const images = (entry.images && entry.images.length) ? entry.images.slice(0, 5) : [];
+    const rawImages = entry.images || [];
+    const images = rawImages.slice(0, 5).map(img => typeof img === 'string' ? img : img.image);
     setupJournalStack(wrap, images, entry.title);
   });
 

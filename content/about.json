@@ -1,7 +1,7 @@
 {
-  "location": "Springfield, MO (traveling internationally)",
+  "location": "Springfield, MO (Traveling Internationally)",
   "home": {
-    "name": "H. Davidson",
+    "name": "Hunter Davidson",
     "tagline": "Documentary stories from the edges of ordinary life — night shifts, small towns, slow recoveries.",
     "heroPortrait": "https://picsum.photos/seed/hdavidson-hero/1600/2000"
   },
@@ -11,8 +11,8 @@
     "portrait": "https://picsum.photos/seed/meridian-portrait/700/875"
   },
   "contact": {
-    "email": "hello@hdavidsonphoto.com",
-    "pressEmail": "press@hdavidsonphoto.com",
+    "email": "h.davidsondocuments@gmail.com",
+    "pressEmail": "h.davidsondocuments@gmail.com",
     "instagram": "#"
   }
 }

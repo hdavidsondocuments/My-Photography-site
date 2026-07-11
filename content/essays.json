@@ -1,61 +1,17 @@
 {
   "items": [
     {
-      "id": "night-shift",
-      "label": "Essay 01 — Harbor District, 2024–2026",
-      "title": "The Night Shift",
-      "description": "Two years documenting the dockworkers, night nurses, and bakers who keep a port town running after dark — a portrait of labor most of the city never sees.",
+      "id": "solo-journey",
+      "label": "Essay 01 — Exploring Europe - 2026",
+      "title": "After the Fall",
+      "description": "A documentation of my three-month-long solo journey to München, Germany, through the Balkans, finishing in Istanbul, Türkiye. This photo essay is a direct showing of my experiences. Coming soon...",
       "preview": {
-        "image": "https://picsum.photos/seed/essay-harbor/900/720",
-        "thumb1": "https://picsum.photos/seed/harbor-a/300/300",
-        "thumb2": "https://picsum.photos/seed/harbor-b/300/300",
-        "thumb3": "https://picsum.photos/seed/harbor-c/300/300"
+        "image": "images/uploads/coming_soon_placeholder.jpg",
+        "thumb1": "images/uploads/coming_soon_placeholder.jpg",
+        "thumb2": "images/uploads/coming_soon_placeholder.jpg",
+        "thumb3": "images/uploads/coming_soon_placeholder.jpg"
       },
-      "photos": [
-        {"image": "https://picsum.photos/seed/harbor-a/1200/800", "caption": "Harbor District — 2024"},
-        {"image": "https://picsum.photos/seed/harbor-b/1200/1500", "caption": "Dry dock, night crew — 2024"},
-        {"image": "https://picsum.photos/seed/harbor-c/1200/800", "caption": "Coffee break, 3 a.m. — 2025"},
-        {"image": "https://picsum.photos/seed/harbor-d/1200/1500", "caption": "Loading bay — 2025"},
-        {"image": "https://picsum.photos/seed/harbor-e/1200/800", "caption": "Walk home, dawn — 2025"},
-        {"image": "https://picsum.photos/seed/harbor-f/1200/1500", "caption": "Harbor District — 2026"}
-      ]
-    },
-    {
-      "id": "what-the-water-left",
-      "label": "Essay 02 — River Road, 2025",
-      "title": "What the Water Left",
-      "description": "In the weeks after the flooding along River Road, families sorted through what could be saved. This essay follows three households through the slow work of rebuilding.",
-      "preview": {
-        "image": "https://picsum.photos/seed/essay-flood/900/720",
-        "thumb1": "https://picsum.photos/seed/flood-a/300/300",
-        "thumb2": "https://picsum.photos/seed/flood-b/300/300",
-        "thumb3": "https://picsum.photos/seed/flood-c/300/300"
-      },
-      "photos": [
-        {"image": "https://picsum.photos/seed/flood-a/1200/800", "caption": "River Road, day one — 2025"},
-        {"image": "https://picsum.photos/seed/flood-b/1200/1500", "caption": "Sorting what's left — 2025"},
-        {"image": "https://picsum.photos/seed/flood-c/1200/800", "caption": "The Hendricks family — 2025"},
-        {"image": "https://picsum.photos/seed/flood-d/1200/1500", "caption": "Waterline, week two — 2025"},
-        {"image": "https://picsum.photos/seed/flood-e/1200/800", "caption": "Rebuilding — 2025"}
-      ]
-    },
-    {
-      "id": "last-bell",
-      "label": "Essay 03 — Elm Street, 2025",
-      "title": "Last Bell",
-      "description": "A year inside a rural school in its final term before closure — the last graduating class, the empty hallways, and what a town loses when its school shuts its doors.",
-      "preview": {
-        "image": "https://picsum.photos/seed/essay-school/900/720",
-        "thumb1": "https://picsum.photos/seed/school-a/300/300",
-        "thumb2": "https://picsum.photos/seed/school-b/300/300",
-        "thumb3": "https://picsum.photos/seed/school-c/300/300"
-      },
-      "photos": [
-        {"image": "https://picsum.photos/seed/school-a/1200/800", "caption": "Elm Street School — Fall 2025"},
-        {"image": "https://picsum.photos/seed/school-b/1200/1500", "caption": "Last homeroom — 2025"},
-        {"image": "https://picsum.photos/seed/school-c/1200/800", "caption": "Empty hallway — 2025"},
-        {"image": "https://picsum.photos/seed/school-d/1200/1500", "caption": "Graduation day — 2025"}
-      ]
+      "photos": []
     }
   ]
 }

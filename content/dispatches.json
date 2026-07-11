@@ -2,18 +2,18 @@
   "items": [
     {
       "frame": "Frame 01",
-      "caption": "Night Shift, Harbor District — 2026",
-      "image": "https://picsum.photos/seed/dispatch1/700/900"
+      "caption": "A Face That Knows, Broadway in Nashville — 2026",
+      "image": "images/uploads/img_8628.jpg"
     },
     {
       "frame": "Frame 02",
-      "caption": "Flood Line, River Road — 2025",
-      "image": "https://picsum.photos/seed/dispatch2/700/900"
+      "caption": "Juggling at Half, Geodis Park Nashville— 2026",
+      "image": "images/uploads/img_8239-enhanced-nr.jpg"
     },
     {
       "frame": "Frame 03",
-      "caption": "Last Class, Elm Street School — 2025",
-      "image": "https://picsum.photos/seed/dispatch3/700/900"
+      "caption": "A Treat, Springfield Missouri — 2024",
+      "image": "images/uploads/davidson005483-r1-e002.jpg"
     }
   ]
 }

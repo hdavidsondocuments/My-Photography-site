@@ -52,7 +52,7 @@
       return;
     }
     const entries = data.entries || [];
-    const index = entries.findIndex(e => e.id === id);
+    const index = entries.findIndex(e => (e.id || slugify(e.title)) === id);
 
     if(index === -1){
       content.innerHTML = `<div class="not-found mono">Entry not found. <a href="journal.html" style="color:var(--archive-red);">Return to Journal →</a></div>`;
@@ -83,10 +83,10 @@
       <div class="journal-full-story">${formatStory(entry.story)}</div>
       ${showNav ? `
       <div class="wrap nav-between">
-        <a href="journal-entry.html?id=${encodeURIComponent(prevItem.id)}">
+        <a href="journal-entry.html?id=${encodeURIComponent(prevItem.id || slugify(prevItem.title))}">
           <span class="dir">← Previous</span>${esc(prevItem.title)}
         </a>
-        <a href="journal-entry.html?id=${encodeURIComponent(nextItem.id)}" style="text-align:right;">
+        <a href="journal-entry.html?id=${encodeURIComponent(nextItem.id || slugify(nextItem.title))}" style="text-align:right;">
           <span class="dir">Next →</span>${esc(nextItem.title)}
         </a>
       </div>` : ''}

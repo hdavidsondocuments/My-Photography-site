@@ -6,6 +6,14 @@ function esc(str){
   return d.innerHTML;
 }
 
+function slugify(str){
+  return (str || '')
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+}
+
 async function loadJSON(path){
   try{
     const res = await fetch(path, {cache:'no-store'});
@@ -150,7 +158,8 @@ function renderJournal(data){
     const rawImages = e.images || [];
     const images = rawImages.map(img => typeof img === 'string' ? img : img.image);
     const thumb = images[0] || '';
-    const link = e.id ? `journal-entry.html?id=${encodeURIComponent(e.id)}` : '#';
+    const slug = e.id || slugify(e.title);
+    const link = slug ? `journal-entry.html?id=${encodeURIComponent(slug)}` : '#';
     const countBadge = images.length > 1 ? `<div class="frame-label" style="position:absolute; bottom:10px; left:10px; top:auto;">${images.length} photos</div>` : '';
     return `
     <div class="journal-entry ${i % 2 === 1 ? 'reverse' : ''} reveal journal-card" data-href="${esc(link)}">

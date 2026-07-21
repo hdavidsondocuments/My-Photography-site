@@ -5,6 +5,16 @@
       "lng": 13.405,
       "name": "Berlin, Germany ",
       "note": ""
+    },
+    {
+      "name": "London, England",
+      "lat": 51.51,
+      "lng": 0.12
+    },
+    {
+      "name": "Montreal, Canada",
+      "lat": 45.50884,
+      "lng": 73.58781
     }
   ]
 }

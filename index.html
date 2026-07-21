@@ -89,10 +89,12 @@
   initSite();
   Promise.all([
     loadJSON('content/about.json'),
-    loadJSON('content/essays.json')
-  ]).then(([aboutData, essaysData]) => {
+    loadJSON('content/essays.json'),
+    loadJSON('content/journal.json'),
+    loadJSON('content/places.json')
+  ]).then(([aboutData, essaysData, journalData, placesData]) => {
     renderHome(aboutData);
-    renderPlacesMap(essaysData);
+    renderPlacesMap(essaysData, journalData, placesData);
     initReveal();
   });
 </script>

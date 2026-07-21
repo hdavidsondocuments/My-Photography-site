@@ -149,9 +149,11 @@ function attachSwipe(el, handlers){
 
 function renderJournal(data){
   const el = document.getElementById('journalList');
+  const tocEl = document.getElementById('journalToc');
   if(!el || !data) return;
   if(!data.entries || data.entries.length === 0){
     el.innerHTML = `<p style="color:var(--ash); padding:32px 0; border-top:1px solid var(--line); border-bottom:1px solid var(--line);">New field notes coming soon.</p>`;
+    if(tocEl) tocEl.innerHTML = '';
     return;
   }
   el.innerHTML = data.entries.map((e, i) => {
@@ -162,7 +164,7 @@ function renderJournal(data){
     const link = slug ? `journal-entry.html?id=${encodeURIComponent(slug)}` : '#';
     const countBadge = images.length > 1 ? `<div class="frame-label" style="position:absolute; bottom:10px; left:10px; top:auto;">${images.length} photos</div>` : '';
     return `
-    <div class="journal-entry ${i % 2 === 1 ? 'reverse' : ''} reveal journal-card" data-href="${esc(link)}">
+    <div class="journal-entry ${i % 2 === 1 ? 'reverse' : ''} reveal journal-card" id="entry-${i}" data-href="${esc(link)}">
       <div class="journal-photo" style="position:relative;">
         <img src="${esc(thumb)}" alt="${esc(e.title)}">
         ${countBadge}
@@ -175,6 +177,17 @@ function renderJournal(data){
       </div>
     </div>`;
   }).join('');
+
+  if(tocEl){
+    tocEl.innerHTML = `
+      <span class="toc-label mono">On this page</span>
+      <ul>
+        ${data.entries.map((e, i) => `
+          <li><a href="#entry-${i}"><span class="toc-date">${esc(e.date)}</span>${esc(e.title)}</a></li>
+        `).join('')}
+      </ul>
+    `;
+  }
 
   el.querySelectorAll('.journal-card').forEach(card => {
     card.style.cursor = 'pointer';
@@ -199,13 +212,43 @@ function initContactForm(){
 }
 
 // Call this once at the top of every page's script.
-function renderPlacesMap(essaysData){
+function renderPlacesMap(essaysData, journalData, placesData){
   const mapEl = document.getElementById('placesMap');
   const emptyMsg = document.getElementById('placesMapEmpty');
   if(!mapEl || typeof L === 'undefined') return;
 
-  const items = (essaysData && essaysData.items) ? essaysData.items : [];
-  const pins = items.filter(it => it.location && typeof it.location.lat === 'number' && typeof it.location.lng === 'number');
+  const pins = [];
+
+  (essaysData && essaysData.items ? essaysData.items : []).forEach(item => {
+    if(item.location && typeof item.location.lat === 'number' && typeof item.location.lng === 'number'){
+      pins.push({
+        lat: item.location.lat, lng: item.location.lng,
+        eyebrow: item.label || '', title: item.title || '',
+        link: item.id ? `essay.html?id=${encodeURIComponent(item.id)}` : ''
+      });
+    }
+  });
+
+  (journalData && journalData.entries ? journalData.entries : []).forEach(entry => {
+    if(entry.location && typeof entry.location.lat === 'number' && typeof entry.location.lng === 'number'){
+      const slug = entry.id || slugify(entry.title);
+      pins.push({
+        lat: entry.location.lat, lng: entry.location.lng,
+        eyebrow: entry.date || '', title: entry.title || '',
+        link: slug ? `journal-entry.html?id=${encodeURIComponent(slug)}` : ''
+      });
+    }
+  });
+
+  (placesData && placesData.items ? placesData.items : []).forEach(place => {
+    if(typeof place.lat === 'number' && typeof place.lng === 'number'){
+      pins.push({
+        lat: place.lat, lng: place.lng,
+        eyebrow: place.note || '', title: place.name || '',
+        link: ''
+      });
+    }
+  });
 
   if(pins.length === 0){
     mapEl.style.display = 'none';
@@ -214,21 +257,20 @@ function renderPlacesMap(essaysData){
   }
 
   const map = L.map('placesMap', {scrollWheelZoom: false});
-  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-    attribution: '&copy; OpenStreetMap contributors &copy; CARTO',
+  L.tileLayer('https://api.maptiler.com/maps/dataviz/{z}/{x}/{y}.png?key=fgnKbDvZUZaQuji0sv4C', {
+    attribution: '&copy; <a href="https://www.maptiler.com/copyright/" target="_blank">MapTiler</a> &copy; OpenStreetMap contributors',
     maxZoom: 18
   }).addTo(map);
 
   const markers = [];
-  pins.forEach(item => {
+  pins.forEach(p => {
     const icon = L.divIcon({className: '', html: '<div class="place-pin"></div>', iconSize: [16,16]});
-    const marker = L.marker([item.location.lat, item.location.lng], {icon}).addTo(map);
-    const link = item.id ? `essay.html?id=${encodeURIComponent(item.id)}` : '#';
+    const marker = L.marker([p.lat, p.lng], {icon}).addTo(map);
     marker.bindPopup(`
       <div class="place-popup">
-        <span class="eyebrow">${esc(item.label || '')}</span>
-        <h4>${esc(item.title || '')}</h4>
-        <a href="${esc(link)}">View project →</a>
+        ${p.eyebrow ? `<span class="eyebrow">${esc(p.eyebrow)}</span>` : ''}
+        <h4>${esc(p.title)}</h4>
+        ${p.link ? `<a href="${esc(p.link)}">View project →</a>` : ''}
       </div>
     `);
     markers.push(marker);

@@ -151,7 +151,7 @@ nav.links a.active::after{width:100%;}
 .places-section{padding:80px 0; border-bottom:1px solid var(--line);}
 #placesMap{
   height:420px; width:100%; border:1px solid var(--line);
-  filter:grayscale(0.15) sepia(0.12) contrast(1.02) brightness(1.01);
+  filter:grayscale(0.1) sepia(0.15) contrast(1.1) brightness(0.85);
   background:var(--paper-alt);
 }
 .leaflet-popup-content-wrapper{
@@ -268,10 +268,31 @@ main section:last-of-type{border-bottom:none;}
 }
 
 /* ============ JOURNAL — story-behind-the-photo format ============ */
+.journal-layout{display:grid; grid-template-columns:200px 1fr; gap:48px; align-items:start;}
+.journal-toc{position:sticky; top:100px; border-right:1px solid var(--line); padding-right:20px; align-self:start;}
+.journal-toc .toc-label{color:var(--archive-red); font-weight:600; margin-bottom:16px; display:block;}
+.journal-toc ul{list-style:none; margin:0; padding:0;}
+.journal-toc li{margin-bottom:16px;}
+.journal-toc a{
+  font-family:'IBM Plex Mono', monospace; font-size:0.7rem; letter-spacing:0.02em;
+  color:var(--ink-soft); text-decoration:none; display:block; line-height:1.4;
+}
+.journal-toc a:hover{color:var(--archive-red);}
+.journal-toc .toc-date{display:block; color:var(--ash); font-size:0.62rem; letter-spacing:0.06em; text-transform:uppercase; margin-bottom:3px;}
+@media (max-width:900px){
+  .journal-layout{grid-template-columns:1fr;}
+  .journal-toc{
+    position:static; border-right:none; border-bottom:1px solid var(--line);
+    padding-right:0; padding-bottom:20px; margin-bottom:24px;
+  }
+  .journal-toc ul{display:flex; flex-wrap:wrap; gap:16px;}
+  .journal-toc li{margin-bottom:0;}
+}
 .journal-list{display:flex; flex-direction:column;}
 .journal-entry{
   display:grid; grid-template-columns:0.9fr 1.1fr; gap:44px; align-items:center;
   padding:56px 0; border-top:1px solid var(--line);
+  scroll-margin-top:100px;
 }
 .journal-entry:last-child{border-bottom:1px solid var(--line);}
 .journal-entry.reverse{grid-template-columns:1.1fr 0.9fr;}

@@ -57,6 +57,14 @@ collections:
               - {label: "URL Slug", name: "id", widget: "string", hint: "No spaces, e.g. night-shift — becomes part of the project's web address. Must be unique."}
               - {label: "Eyebrow Label", name: "label", widget: "string", hint: "e.g. Essay 04 — Location, Year"}
               - {label: "Description", name: "description", widget: "text", hint: "2–3 sentences describing the project"}
+              - label: "Location on Map (optional)"
+                name: "location"
+                widget: "object"
+                required: false
+                hint: "Fills in a pin on your homepage map. To find coordinates: right-click a spot on Google Maps and copy the numbers shown."
+                fields:
+                  - {label: "Latitude", name: "lat", widget: "number", value_type: "float", required: false}
+                  - {label: "Longitude", name: "lng", widget: "number", value_type: "float", required: false}
               - label: "Homepage Preview"
                 name: "preview"
                 widget: "object"
@@ -83,7 +91,7 @@ collections:
         label: "Dispatches"
         name: "dispatches"
         fields:
-          - label: "Photos (keep to 3)"
+          - label: "Photos (up to 15)"
             name: "items"
             widget: "list"
             summary: "{{fields.frame}} — {{fields.caption}}"
@@ -105,12 +113,40 @@ collections:
             widget: "list"
             summary: "{{fields.date}} — {{fields.title}}"
             fields:
+              - {label: "URL Slug", name: "id", widget: "string", hint: "No spaces, e.g. the-frame-i-almost-didnt-take — becomes part of this entry's page address. Must be unique."}
               - {label: "Date", name: "date", widget: "string", hint: "e.g. Jul 2, 2026"}
               - {label: "Title", name: "title", widget: "string"}
+              - {label: "Teaser", name: "teaser", widget: "text", hint: "One or two sentences shown on the Journal list page — the full story goes in the field below."}
               - label: "Photos (up to 5)"
                 name: "images"
                 widget: "list"
                 summary: "Photo"
                 hint: "Click 'Add photo' for each one — up to 5. Readers can click through them, or expand to fullscreen"
                 field: {label: "Photo", name: "image", widget: "image"}
-              - {label: "The Story", name: "story", widget: "text", hint: "The full story behind these photos — how it happened, what it took to get them, what it means. Leave a blank line between paragraphs if you want more than one."}
+              - {label: "The Story", name: "story", widget: "text", hint: "The full story behind these photos. Press Enter once for a line break, or leave a blank line (press Enter twice) to start a new paragraph."}
+              - label: "Location on Map (optional)"
+                name: "location"
+                widget: "object"
+                required: false
+                hint: "Fills in a pin on your homepage map. To find coordinates: right-click a spot on Google Maps and copy the numbers shown."
+                fields:
+                  - {label: "Latitude", name: "lat", widget: "number", value_type: "float", required: false}
+                  - {label: "Longitude", name: "lng", widget: "number", value_type: "float", required: false}
+
+  - name: "places"
+    label: "📍 Places Visited"
+    description: "Standalone pins for your homepage map — for places you've been that aren't tied to a specific essay or journal entry."
+    files:
+      - file: "content/places.json"
+        label: "Places"
+        name: "places"
+        fields:
+          - label: "Places"
+            name: "items"
+            widget: "list"
+            summary: "{{fields.name}}"
+            fields:
+              - {label: "Place Name", name: "name", widget: "string", hint: "e.g. Marrakech, Morocco"}
+              - {label: "Note (optional)", name: "note", widget: "string", required: false, hint: "A short line shown in the map popup, e.g. a date or a one-line memory"}
+              - {label: "Latitude", name: "lat", widget: "number", value_type: "float", hint: "To find coordinates: right-click a spot on Google Maps and copy the numbers shown."}
+              - {label: "Longitude", name: "lng", widget: "number", value_type: "float"}

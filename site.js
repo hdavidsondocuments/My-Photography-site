@@ -105,6 +105,10 @@ function ensureLightboxDOM(){
     else if(e.key === 'ArrowRight') show(_lightboxState.current + 1);
     else if(e.key === 'Escape') close();
   });
+  attachSwipe(div, {
+    onSwipeLeft: () => show(_lightboxState.current + 1),
+    onSwipeRight: () => show(_lightboxState.current - 1)
+  });
 }
 
 function openLightbox(photos, startIndex, title){
@@ -115,75 +119,63 @@ function openLightbox(photos, startIndex, title){
   document.body.style.overflow = 'hidden';
 }
 
-// ============ JOURNAL PHOTO STACK ============
-function setupJournalStack(wrap, images, title){
-  if(!images || images.length === 0) return;
+// ============ TOUCH SWIPE HELPER ============
+function attachSwipe(el, handlers){
+  let startX = 0, startY = 0, tracking = false;
+  el.addEventListener('touchstart', (e) => {
+    if(e.touches.length !== 1) return;
+    startX = e.touches[0].clientX;
+    startY = e.touches[0].clientY;
+    tracking = true;
+  }, {passive: true});
+  el.addEventListener('touchend', (e) => {
+    if(!tracking) return;
+    tracking = false;
+    const dx = e.changedTouches[0].clientX - startX;
+    const dy = e.changedTouches[0].clientY - startY;
+    if(Math.abs(dx) < 40 || Math.abs(dx) < Math.abs(dy)) return; // ignore short or mostly-vertical swipes
+    if(dx < 0 && handlers.onSwipeLeft) handlers.onSwipeLeft();
+    else if(dx > 0 && handlers.onSwipeRight) handlers.onSwipeRight();
+  }, {passive: true});
+}
 
-  if(images.length === 1){
-    wrap.innerHTML = `<div class="stack-photo layer-0"><img src="${esc(images[0])}" alt="${esc(title)}"></div>
-      <button class="stack-expand" aria-label="View fullscreen">⤢</button>`;
-    wrap.querySelector('.stack-expand').addEventListener('click', (e) => {
-      e.stopPropagation();
-      openLightbox(images, 0, title);
-    });
+function renderJournal(data){
+  const el = document.getElementById('journalList');
+  if(!el || !data) return;
+  if(!data.entries || data.entries.length === 0){
+    el.innerHTML = `<p style="color:var(--ash); padding:32px 0; border-top:1px solid var(--line); border-bottom:1px solid var(--line);">New field notes coming soon.</p>`;
     return;
   }
+  el.innerHTML = data.entries.map((e, i) => {
+    const rawImages = e.images || [];
+    const images = rawImages.map(img => typeof img === 'string' ? img : img.image);
+    const thumb = images[0] || '';
+    const link = e.id ? `journal-entry.html?id=${encodeURIComponent(e.id)}` : '#';
+    const countBadge = images.length > 1 ? `<div class="frame-label" style="position:absolute; bottom:10px; left:10px; top:auto;">${images.length} photos</div>` : '';
+    return `
+    <div class="journal-entry ${i % 2 === 1 ? 'reverse' : ''} reveal journal-card" data-href="${esc(link)}">
+      <div class="journal-photo" style="position:relative;">
+        <img src="${esc(thumb)}" alt="${esc(e.title)}">
+        ${countBadge}
+      </div>
+      <div class="journal-text">
+        <div class="journal-date mono">${esc(e.date)}</div>
+        <h3>${esc(e.title)}</h3>
+        <p style="color:var(--ink-soft); font-size:0.97rem; font-family:'IBM Plex Sans', sans-serif; margin-bottom:16px;">${esc(e.teaser || '')}</p>
+        <a class="story-link" href="${esc(link)}">Read the full story →</a>
+      </div>
+    </div>`;
+  }).join('');
 
-  let current = 0;
-  let hintShown = true;
-
-  function render(){
-    wrap.querySelectorAll('.stack-photo').forEach(el => el.remove());
-    const order = [0,1,2].filter(o => o < images.length).map(o => images[(current + o) % images.length]);
-    order.slice(0,3).reverse().forEach((src, i) => {
-      const depth = order.slice(0,3).length - 1 - i;
-      const div = document.createElement('div');
-      div.className = 'stack-photo layer-' + depth;
-      div.innerHTML = `<img src="${esc(src)}" alt="${esc(title)}">`;
-      if(depth === 0){
-        div.addEventListener('click', advance);
-      }
-      wrap.appendChild(div);
+  el.querySelectorAll('.journal-card').forEach(card => {
+    card.style.cursor = 'pointer';
+    card.addEventListener('click', (e) => {
+      if(e.target.tagName === 'A') return;
+      window.location.href = card.dataset.href;
     });
-    let badge = wrap.querySelector('.stack-badge');
-    if(!badge){
-      badge = document.createElement('div');
-      badge.className = 'stack-badge';
-      wrap.appendChild(badge);
-    }
-    badge.textContent = (current + 1) + ' / ' + images.length;
-  }
-
-  function advance(){
-    const front = wrap.querySelector('.stack-photo.layer-0');
-    if(front) front.classList.add('fading');
-    if(hintShown){
-      const hint = wrap.querySelector('.stack-hint');
-      if(hint) hint.style.opacity = '0';
-      hintShown = false;
-    }
-    setTimeout(() => {
-      current = (current + 1) % images.length;
-      render();
-    }, 180);
-  }
-
-  render();
-
-  const hint = document.createElement('div');
-  hint.className = 'stack-hint';
-  hint.textContent = 'Click to see more →';
-  wrap.appendChild(hint);
-
-  const expandBtn = document.createElement('button');
-  expandBtn.className = 'stack-expand';
-  expandBtn.setAttribute('aria-label', 'View fullscreen');
-  expandBtn.textContent = '⤢';
-  expandBtn.addEventListener('click', (e) => {
-    e.stopPropagation();
-    openLightbox(images, current, title);
   });
-  wrap.appendChild(expandBtn);
+
+  initReveal();
 }
 
 function initContactForm(){
@@ -221,11 +213,18 @@ function renderHome(data){
 function renderDispatches(data){
   const el = document.getElementById('dispatchFrames');
   if(!el || !data || !data.items) return;
-  el.innerHTML = data.items.slice(0,3).map(f => `
-    <div class="frame"><img src="${esc(f.image)}" alt="${esc(f.caption)}">
+  const items = data.items.slice(0,3);
+  el.innerHTML = items.map(f => `
+    <div class="frame">
+      <img src="${esc(f.image)}" alt="${esc(f.caption)}">
       <div class="frame-label">${esc(f.frame)}</div>
       <div class="frame-cap">${esc(f.caption)}</div>
     </div>`).join('');
+  el.querySelectorAll('.frame').forEach((frameEl, i) => {
+    frameEl.addEventListener('click', () => {
+      openLightbox(items.map(it => ({image: it.image, caption: it.caption})), i);
+    });
+  });
 }
 
 function renderEssays(data){
@@ -253,32 +252,13 @@ function renderEssays(data){
   initReveal();
 }
 
-function renderJournal(data){
-  const el = document.getElementById('journalList');
-  if(!el || !data) return;
-  if(!data.entries || data.entries.length === 0){
-    el.innerHTML = `<p style="color:var(--ash); padding:32px 0; border-top:1px solid var(--line); border-bottom:1px solid var(--line);">New field notes coming soon.</p>`;
-    return;
-  }
-  el.innerHTML = data.entries.map((e, i) => `
-    <div class="journal-entry ${i % 2 === 1 ? 'reverse' : ''} reveal">
-      <div class="journal-photo"><div class="stack-wrap" data-entry="${i}"></div></div>
-      <div class="journal-text">
-        <div class="journal-date mono">${esc(e.date)}</div>
-        <h3>${esc(e.title)}</h3>
-        <div class="journal-story">${esc(e.story).split('\n\n').map(p => `<p style="margin-bottom:14px;">${p}</p>`).join('')}</div>
-      </div>
-    </div>`).join('');
-
-  el.querySelectorAll('.stack-wrap').forEach(wrap => {
-    const i = parseInt(wrap.dataset.entry, 10);
-    const entry = data.entries[i];
-    const rawImages = entry.images || [];
-    const images = rawImages.slice(0, 5).map(img => typeof img === 'string' ? img : img.image);
-    setupJournalStack(wrap, images, entry.title);
-  });
-
-  initReveal();
+function formatStory(story){
+  return (story || '')
+    .split(/\n\s*\n/)
+    .map(para => esc(para.trim()).replace(/\n/g, '<br>'))
+    .filter(p => p.length > 0)
+    .map(p => `<p style="margin-bottom:14px;">${p}</p>`)
+    .join('');
 }
 
 function renderAboutPage(data){

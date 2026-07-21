@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Journal Entry — H. Davidson</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+  header.essay-header{
+    padding:22px 32px; border-bottom:1px solid var(--line);
+    display:flex; align-items:center; justify-content:space-between;
+    position:relative; z-index:10; background:var(--paper);
+  }
+  .back-link{
+    text-decoration:none; font-family:'IBM Plex Mono', monospace; font-size:0.72rem;
+    letter-spacing:0.08em; text-transform:uppercase; color:var(--ink-soft);
+    border-bottom:1px solid var(--line); padding-bottom:2px;
+  }
+  .back-link:hover{border-bottom-color:var(--archive-red); color:var(--ink);}
+
+  .stream figure{cursor:zoom-in;}
+  .journal-full-story{max-width:640px; margin:0 auto; padding:8px 32px 56px;}
+  .journal-full-story p{color:var(--ink-soft); font-size:1.02rem; line-height:1.7; font-family:'IBM Plex Sans', sans-serif; margin-bottom:16px;}
+</style>
+</head>
+<body>
+
+<header class="essay-header">
+  <a class="brand" href="index.html">H. Davidson</a>
+  <a class="back-link" href="journal.html">← Back to Journal</a>
+</header>
+
+<div id="content">
+  <div class="loading mono">Loading entry…</div>
+</div>
+
+<script src="site.js"></script>
+<script>
+  function getParam(name){
+    return new URLSearchParams(window.location.search).get(name);
+  }
+
+  async function loadEntry(){
+    const id = getParam('id');
+    const content = document.getElementById('content');
+    const data = await loadJSON('content/journal.json');
+    if(!data){
+      content.innerHTML = `<div class="not-found mono">Couldn't load this entry. Make sure this page is being viewed on your live site (not opened directly from a file), since it needs to fetch content/journal.json.</div>`;
+      return;
+    }
+    const entries = data.entries || [];
+    const index = entries.findIndex(e => e.id === id);
+
+    if(index === -1){
+      content.innerHTML = `<div class="not-found mono">Entry not found. <a href="journal.html" style="color:var(--archive-red);">Return to Journal →</a></div>`;
+      return;
+    }
+
+    const entry = entries[index];
+    document.title = entry.title + ' — H. Davidson';
+
+    const rawImages = entry.images || [];
+    const photos = rawImages.map(img => typeof img === 'string' ? {image: img} : img);
+
+    const streamHtml = photos.map((p, i) => `
+      <figure data-index="${i}" class="lightbox-trigger">
+        <img src="${esc(p.image)}" alt="${esc(entry.title)}">
+      </figure>`).join('');
+
+    const prevItem = entries[(index - 1 + entries.length) % entries.length];
+    const nextItem = entries[(index + 1) % entries.length];
+    const showNav = entries.length > 1;
+
+    content.innerHTML = `
+      <div class="wrap essay-head">
+        <div class="essay-eyebrow mono">${esc(entry.date)}</div>
+        <h1>${esc(entry.title)}</h1>
+      </div>
+      <div class="wrap stream">${streamHtml}</div>
+      <div class="journal-full-story">${formatStory(entry.story)}</div>
+      ${showNav ? `
+      <div class="wrap nav-between">
+        <a href="journal-entry.html?id=${encodeURIComponent(prevItem.id)}">
+          <span class="dir">← Previous</span>${esc(prevItem.title)}
+        </a>
+        <a href="journal-entry.html?id=${encodeURIComponent(nextItem.id)}" style="text-align:right;">
+          <span class="dir">Next →</span>${esc(nextItem.title)}
+        </a>
+      </div>` : ''}
+    `;
+
+    document.querySelectorAll('.lightbox-trigger').forEach(fig => {
+      fig.addEventListener('click', () => {
+        openLightbox(photos, parseInt(fig.dataset.index, 10), entry.title);
+      });
+    });
+  }
+
+  loadEntry();
+</script>
+
+</body>
+</html>

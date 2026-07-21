@@ -7,7 +7,13 @@
       "images": [
         "images/uploads/img_8622.jpg",
         "images/uploads/img_8628.jpg"
-      ]
+      ],
+      "location": {
+        "lat": 36.16222,
+        "lng": 86.77444
+      },
+      "teaser": "\"Hands connect us, divide us, restore us, and kill us. The surgeons use theirs to heal, while the soldiers use theirs to kill. Sculptors use theirs to destroy and create.\"",
+      "id": "Why-my-hands"
     }
   ]
 }

@@ -11,7 +11,10 @@
         "thumb2": "images/uploads/coming_soon_placeholder.jpg",
         "thumb3": "images/uploads/coming_soon_placeholder.jpg"
       },
-      "photos": []
+      "photos": [],
+      "location": {
+        "lat": ""
+      }
     }
   ]
 }

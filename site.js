@@ -199,6 +199,49 @@ function initContactForm(){
 }
 
 // Call this once at the top of every page's script.
+function renderPlacesMap(essaysData){
+  const mapEl = document.getElementById('placesMap');
+  const emptyMsg = document.getElementById('placesMapEmpty');
+  if(!mapEl || typeof L === 'undefined') return;
+
+  const items = (essaysData && essaysData.items) ? essaysData.items : [];
+  const pins = items.filter(it => it.location && typeof it.location.lat === 'number' && typeof it.location.lng === 'number');
+
+  if(pins.length === 0){
+    mapEl.style.display = 'none';
+    if(emptyMsg) emptyMsg.style.display = 'block';
+    return;
+  }
+
+  const map = L.map('placesMap', {scrollWheelZoom: false});
+  L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+    attribution: '&copy; OpenStreetMap contributors &copy; CARTO',
+    maxZoom: 18
+  }).addTo(map);
+
+  const markers = [];
+  pins.forEach(item => {
+    const icon = L.divIcon({className: '', html: '<div class="place-pin"></div>', iconSize: [16,16]});
+    const marker = L.marker([item.location.lat, item.location.lng], {icon}).addTo(map);
+    const link = item.id ? `essay.html?id=${encodeURIComponent(item.id)}` : '#';
+    marker.bindPopup(`
+      <div class="place-popup">
+        <span class="eyebrow">${esc(item.label || '')}</span>
+        <h4>${esc(item.title || '')}</h4>
+        <a href="${esc(link)}">View project →</a>
+      </div>
+    `);
+    markers.push(marker);
+  });
+
+  if(markers.length === 1){
+    map.setView(markers[0].getLatLng(), 6);
+  } else {
+    const group = L.featureGroup(markers);
+    map.fitBounds(group.getBounds().pad(0.3));
+  }
+}
+
 function initSite(){
   initHeaderScroll();
   initMobileNav();
@@ -210,7 +253,11 @@ function initSite(){
 function renderHome(data){
   if(!data || !data.home) return;
   const h = data.home;
-  if(h.heroPortrait) document.getElementById('heroBg').src = h.heroPortrait;
+  if(h.heroPortrait){
+    const heroImg = document.getElementById('heroBg');
+    heroImg.addEventListener('load', () => heroImg.classList.add('loaded'), {once: true});
+    heroImg.src = h.heroPortrait;
+  }
   if(h.name) document.getElementById('heroName').textContent = h.name;
   if(h.tagline) document.getElementById('heroTagline').textContent = h.tagline;
   if(data.about && data.about.bio) {
@@ -222,16 +269,23 @@ function renderHome(data){
 function renderDispatches(data){
   const el = document.getElementById('dispatchFrames');
   if(!el || !data || !data.items) return;
-  const items = data.items.slice(0,3);
-  el.innerHTML = items.map(f => `
-    <div class="frame">
+  const items = data.items.slice(0,15);
+  if(items.length === 0) return;
+
+  const frameHtml = (f) => `
+    <div class="filmstrip-frame">
       <img src="${esc(f.image)}" alt="${esc(f.caption)}">
       <div class="frame-label">${esc(f.frame)}</div>
       <div class="frame-cap">${esc(f.caption)}</div>
-    </div>`).join('');
-  el.querySelectorAll('.frame').forEach((frameEl, i) => {
+    </div>`;
+
+  // Duplicate the sequence so the CSS animation (translateX -50%) loops seamlessly.
+  el.innerHTML = items.map(frameHtml).join('') + items.map(frameHtml).join('');
+
+  el.querySelectorAll('.filmstrip-frame').forEach((frameEl, i) => {
+    const item = items[i % items.length];
     frameEl.addEventListener('click', () => {
-      openLightbox(items.map(it => ({image: it.image, caption: it.caption})), i);
+      openLightbox(items.map(it => ({image: it.image, caption: it.caption})), i % items.length);
     });
   });
 }
